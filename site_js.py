@@ -184,6 +184,33 @@ function copyUrl() {
   });
 }
 
+// YouTube 實境影音播放彈窗控制
+function playVideoModal(videoId, title, desc) {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('videoIframe');
+  const titleEl = document.getElementById('videoModalTitle');
+  const descEl = document.getElementById('videoModalDesc');
+  const extLink = document.getElementById('videoModalExtLink');
+
+  if (modal && iframe) {
+    if (titleEl) titleEl.innerText = '🎬 ' + title;
+    if (descEl) descEl.innerText = desc || '';
+    if (extLink) extLink.href = 'https://www.youtube.com/watch?v=' + videoId;
+    iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+    modal.style.display = 'flex';
+    playSound('pop');
+  }
+}
+
+function closeVideoModal() {
+  const modal = document.getElementById('videoModal');
+  const iframe = document.getElementById('videoIframe');
+  if (modal && iframe) {
+    iframe.src = '';
+    modal.style.display = 'none';
+  }
+}
+
 // ==========================================
 // 模擬器 1：極端環境植物微觀適應展示器
 // ==========================================

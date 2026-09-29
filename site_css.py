@@ -680,6 +680,157 @@ canvas.interactive-canvas {
   }
 }
 
+/* 影音觀察教室卡片樣式 */
+.video-card {
+  background: rgba(8, 28, 21, 0.85);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.video-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary-light);
+  box-shadow: 0 10px 24px rgba(16, 185, 129, 0.25);
+}
+
+.video-thumb-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #000;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.video-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.video-card:hover .video-thumb {
+  transform: scale(1.05);
+}
+
+.video-play-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  background: rgba(16, 185, 129, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #fff;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.7);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.video-card:hover .video-play-badge {
+  transform: translate(-50%, -50%) scale(1.15);
+  background: #059669;
+}
+
+.video-info {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.video-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  width: fit-content;
+}
+
+.video-tag.coastal {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.video-tag.alpine {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+}
+
+.video-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+  line-height: 1.45;
+}
+
+.video-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.video-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.video-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.2s;
+  border: none;
+}
+
+.video-btn-play {
+  background: var(--primary);
+  color: #031c12;
+}
+
+.video-btn-play:hover {
+  background: #34d399;
+}
+
+.video-btn-link {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f1fdf6;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.video-btn-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
 /* 頁尾 Footer */
 footer {
   background: #020d08;

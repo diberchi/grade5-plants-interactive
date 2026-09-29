@@ -165,7 +165,129 @@ CONTENT_HTML = """
             <div class="info-card-title">校園常見植物與爭取陽光</div>
           </div>
           <p>• <strong>榕樹</strong>：枝幹會垂下無數細長的<strong>氣生根</strong>，接觸地面深入泥土後會吸收水分養分並逐漸木質化加粗，形成支撐巨大樹冠的<strong>支持根</strong>！</p>
-          <p>• <strong>葉片鑲嵌現象（馬賽克排列）</strong>：許多校園植物（如黑板樹、榕樹、黃金葛）的葉片互不重疊遮蔽，像馬賽克磁磚拼貼般錯開生長，能<strong>最大化吸收太陽光能進行光合作用</strong>。</p>
+      <!-- YouTube 實境影音觀察教室（點了就看） -->
+      <div style="margin-top: 26px;">
+        <div class="tb-header" style="border-bottom: 2px solid rgba(56, 189, 248, 0.3); margin-bottom: 18px;">
+          <h3 style="color: #38bdf8; font-size: 1.35rem; display: flex; align-items: center; gap: 10px;">
+            <span>🎬 實境影音觀察教室：海邊與高山植物（點了就看）</span>
+          </h3>
+          <span class="tb-badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border-color: #38bdf8;">YouTube 4K/HD 實境生態</span>
+        </div>
+
+        <div class="grid-3">
+          <!-- 海邊影片 1: 海茄苳介紹 -->
+          <div class="video-card">
+            <div class="video-thumb-wrap" onclick="playVideoModal('kY_75c6N1cE', '［認識植物好好玩］海茄苳（呼吸根與耐鹽構造）', '潮間帶缺氧泥灘生存絕技，指狀呼吸根向上呼吸、葉背排鹽腺體排出鹽分結晶')">
+              <img class="video-thumb" src="https://img.youtube.com/vi/kY_75c6N1cE/hqdefault.jpg" alt="海茄苳介紹" loading="lazy">
+              <div class="video-play-badge">▶</div>
+            </div>
+            <div class="video-info">
+              <div>
+                <span class="video-tag coastal">🌊 海邊植物 • 紅樹林</span>
+                <h4 class="video-title">［認識植物好好玩］海茄苳介紹</h4>
+                <p class="video-desc">深入彰化芳苑潮間帶，觀察海茄苳密集的「棒狀呼吸根」如何露出缺氧泥灘進行氣體交換，以及葉片分泌鹽粒的耐鹽機制！</p>
+              </div>
+              <div class="video-actions">
+                <button class="video-btn video-btn-play" onclick="playVideoModal('kY_75c6N1cE', '［認識植物好好玩］海茄苳介紹', '潮間帶缺氧泥灘生存絕技，指狀呼吸根向上呼吸、葉背排鹽腺體排出鹽分結晶')">▶ 站內播放</button>
+                <a class="video-btn video-btn-link" href="https://www.youtube.com/watch?v=kY_75c6N1cE" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 海邊影片 2: 台南濱海紅樹林導覽 -->
+          <div class="video-card">
+            <div class="video-thumb-wrap" onclick="playVideoModal('f9kG76ZtC1I', '台南濱海紅樹林生態之旅：海茄苳與欖李實境導覽', '實地搭乘竹筏穿梭綠色隧道，觀察海茄苳成片呼吸根群與潮間帶生態')">
+              <img class="video-thumb" src="https://img.youtube.com/vi/f9kG76ZtC1I/hqdefault.jpg" alt="台南濱海紅樹林" loading="lazy">
+              <div class="video-play-badge">▶</div>
+            </div>
+            <div class="video-info">
+              <div>
+                <span class="video-tag coastal">🌊 海邊植物 • 實地導覽</span>
+                <h4 class="video-title">台南濱海紅樹林生態之旅</h4>
+                <p class="video-desc">搭乘竹筏深入四草與七股濱海潮間帶，近距離觀察海茄苳成片的呼吸根林、欖李與濱海防風定沙功能。</p>
+              </div>
+              <div class="video-actions">
+                <button class="video-btn video-btn-play" onclick="playVideoModal('f9kG76ZtC1I', '台南濱海紅樹林生態之旅', '實地搭乘竹筏穿梭綠色隧道，觀察海茄苳成片呼吸根群與潮間帶生態')">▶ 站內播放</button>
+                <a class="video-btn video-btn-link" href="https://www.youtube.com/watch?v=f9kG76ZtC1I" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 海邊影片 3: 我們的島 邂逅紅樹林 -->
+          <div class="video-card">
+            <div class="video-thumb-wrap" onclick="playVideoModal('hJDN8NxKtbo', '公視 我們的島：邂逅紅樹林（海邊植物生存智慧）', '探討河口與潮間帶紅樹林生態系，海邊植物如何適應環境')">
+              <img class="video-thumb" src="https://img.youtube.com/vi/hJDN8NxKtbo/hqdefault.jpg" alt="公視我們的島 紅樹林" loading="lazy">
+              <div class="video-play-badge">▶</div>
+            </div>
+            <div class="video-info">
+              <div>
+                <span class="video-tag coastal">🌊 海邊植物 • 生態保育</span>
+                <h4 class="video-title">公視我們的島：邂逅紅樹林</h4>
+                <p class="video-desc">公視優質生態報導，詳解河口潮間帶紅樹林（海茄苳、水筆仔）如何面對潮水漲退、缺氧泥灘與鹽度變化的生存機制。</p>
+              </div>
+              <div class="video-actions">
+                <button class="video-btn video-btn-play" onclick="playVideoModal('hJDN8NxKtbo', '公視 我們的島：邂逅紅樹林', '探討河口與潮間帶紅樹林生態系，海邊植物如何適應環境')">▶ 站內播放</button>
+                <a class="video-btn video-btn-link" href="https://www.youtube.com/watch?v=hJDN8NxKtbo" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 高山影片 1: 玉山杜鵑花況與抗風厚葉 -->
+          <div class="video-card">
+            <div class="video-thumb-wrap" onclick="playVideoModal('34d7wDk2cOw', '合歡山主峰玉山杜鵑：高山嚴寒耐風與厚革質葉實況', '海拔三千公尺拍攝，玉山杜鵑植株低矮匍匐、厚革質葉表面厚蠟抗紫外線')">
+              <img class="video-thumb" src="https://img.youtube.com/vi/34d7wDk2cOw/hqdefault.jpg" alt="合歡山玉山杜鵑" loading="lazy">
+              <div class="video-play-badge">▶</div>
+            </div>
+            <div class="video-info">
+              <div>
+                <span class="video-tag alpine">🏔️ 高山植物 • 耐寒抗風</span>
+                <h4 class="video-title">合歡山主峰：玉山杜鵑實況</h4>
+                <p class="video-desc">在合歡山主峰海拔 3,417 公尺強風低溫環境下，實境觀察玉山杜鵑匍匐貼地生長、葉厚革質且表面具亮麗反光蠟質的生存形態！</p>
+              </div>
+              <div class="video-actions">
+                <button class="video-btn video-btn-play" onclick="playVideoModal('34d7wDk2cOw', '合歡山主峰玉山杜鵑', '海拔三千公尺拍攝，玉山杜鵑植株低矮匍匐、厚革質葉表面厚蠟抗紫外線')">▶ 站內播放</button>
+                <a class="video-btn video-btn-link" href="https://www.youtube.com/watch?v=34d7wDk2cOw" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 高山影片 2: 合歡山東峰杜鵑步道與植被 -->
+          <div class="video-card">
+            <div class="video-thumb-wrap" onclick="playVideoModal('i9b053Jp7_o', '合歡山東峰玉山杜鵑花季與高山植被群落', '高山強風帶的矮灌叢杜鵑花海，認識臺灣高山特有植物生態')">
+              <img class="video-thumb" src="https://img.youtube.com/vi/i9b053Jp7_o/hqdefault.jpg" alt="合歡山東峰杜鵑" loading="lazy">
+              <div class="video-play-badge">▶</div>
+            </div>
+            <div class="video-info">
+              <div>
+                <span class="video-tag alpine">🏔️ 高山植物 • 生態群落</span>
+                <h4 class="video-title">合歡東峰：高山杜鵑花海群落</h4>
+                <p class="video-desc">沿合歡東峰步道漫步，特寫展示玉山杜鵑的花冠構造、低矮木質化彎曲枝條，以及高山惡劣氣候下成群生長互相庇護的生態。</p>
+              </div>
+              <div class="video-actions">
+                <button class="video-btn video-btn-play" onclick="playVideoModal('i9b053Jp7_o', '合歡東峰：高山杜鵑花海群落', '高山強風帶的矮灌叢杜鵑花海，認識臺灣高山特有植物生態')">▶ 站內播放</button>
+                <a class="video-btn video-btn-link" href="https://www.youtube.com/watch?v=i9b053Jp7_o" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 高山影片 3: 合歡山高山杜鵑與高山植物 -->
+          <div class="video-card">
+            <div class="video-thumb-wrap" onclick="playVideoModal('F0_p_R5pB9s', '合歡山玉山杜鵑與高山生態實境紀錄', '極端高山低溫與紫外線環境下，高山特有植物盛開的生命力')">
+              <img class="video-thumb" src="https://img.youtube.com/vi/F0_p_R5pB9s/hqdefault.jpg" alt="合歡山高山杜鵑" loading="lazy">
+              <div class="video-play-badge">▶</div>
+            </div>
+            <div class="video-info">
+              <div>
+                <span class="video-tag alpine">🏔️ 高山植物 • 冰河孑遺</span>
+                <h4 class="video-title">合歡山玉山杜鵑高山生態</h4>
+                <p class="video-desc">記錄雲海與奇萊山背景下，玉山杜鵑與高山植被如何在貧瘠岩石碎屑上牢牢扎根，展現驚人的環境適應力。</p>
+              </div>
+              <div class="video-actions">
+                <button class="video-btn video-btn-play" onclick="playVideoModal('F0_p_R5pB9s', '合歡山玉山杜鵑高山生態', '極端高山低溫與紫外線環境下，高山特有植物盛開的生命力')">▶ 站內播放</button>
+                <a class="video-btn video-btn-link" href="https://www.youtube.com/watch?v=F0_p_R5pB9s" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -64,6 +64,23 @@ full_html = f"""<!DOCTYPE html>
     </div>
   </div>
 
+  <!-- YouTube 影音播放彈窗 -->
+  <div id="videoModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 99999; justify-content: center; align-items: center; padding: 20px;" onclick="if(event.target === this) closeVideoModal()">
+    <div style="background: #092018; border: 2px solid #10b981; border-radius: 16px; max-width: 900px; width: 100%; box-shadow: 0 25px 50px rgba(0,0,0,0.9); overflow: hidden; position: relative;">
+      <div style="padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(52, 211, 153, 0.3); background: rgba(5, 23, 17, 0.95);">
+        <h4 id="videoModalTitle" style="color: #34d399; font-size: 1.15rem; margin: 0; display: flex; align-items: center; gap: 8px;">🎬 植物實境觀察影片</h4>
+        <button onclick="closeVideoModal()" style="background: transparent; border: none; color: #a7f3d0; font-size: 1.8rem; cursor: pointer; line-height: 1;">&times;</button>
+      </div>
+      <div style="position: relative; width: 100%; padding-top: 56.25%; background: #000;">
+        <iframe id="videoIframe" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+      <div style="padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(5, 23, 17, 0.9); flex-wrap: wrap; gap: 10px;">
+        <span id="videoModalDesc" style="font-size: 0.88rem; color: #cbd5e1;"></span>
+        <a id="videoModalExtLink" href="" target="_blank" rel="noopener noreferrer" style="background: #ef4444; color: #ffffff; text-decoration: none; padding: 7px 16px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">在 YouTube 開啟 ↗</a>
+      </div>
+    </div>
+  </div>
+
   <!-- 頂部水平滑動頁籤列（支援滾輪左右滾動） -->
   <div class="nav-scroll-wrapper">
     <div class="nav-tabs" id="main-nav-tabs">
