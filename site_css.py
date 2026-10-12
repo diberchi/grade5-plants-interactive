@@ -773,6 +773,24 @@ canvas.interactive-canvas {
   border: 1px solid rgba(251, 191, 36, 0.4);
 }
 
+.video-tag.water {
+  background: rgba(14, 165, 233, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.4);
+}
+
+.video-tag.flower {
+  background: rgba(244, 63, 94, 0.2);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.4);
+}
+
+.video-tag.fern {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
 .video-title {
   font-size: 1.02rem;
   font-weight: 700;
