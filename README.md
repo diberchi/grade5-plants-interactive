@@ -20,11 +20,26 @@
    - 即時反饋、Web Audio 音效、全螢幕彩色彩帶碎紙花、即時解析與計分榜。
 5. **13 節完整教案進度表與列印學習單**：
    - 涵蓋 13 節課的探究任務與素養評量指標，內建專屬 `@media print` 樣式，點擊即可一鍵列印黑白高對比學習單。
+6. **2-3 金桔開花、授粉與結果專題微課（全新整合）**：
+   - 金桔花剖面蜜蜂傳粉互動動畫、花藥花粉與雌蕊胚珠放大檢視。
+   - 子房膨大變成金桔生長縮時、果實剖面拆解果肉（子房）與種子（胚珠）。
+   - 種子四大傳播方式互動展台與小學霸闖關測驗。
+7. **Google Flow (Veo) 3D AI 影片提示詞庫與 NotebookLM 系統**：
+   - 內建一鍵複製 Prompt 按鈕、繁體中文標籤與台灣國語配音設定、防超綱 POE 探究家教指引。
 
 ---
 
-## 🚀 啟動方式
+## 🌐 線上開啟連結（GitHub Pages）
+
+- **旗艦互動教學系統首頁**：[https://diberchi.github.io/grade5-plants-interactive/](https://diberchi.github.io/grade5-plants-interactive/)
+- **金桔授粉結果專題微課獨立頁**：[https://diberchi.github.io/grade5-plants-interactive/plant-learning-site.html](https://diberchi.github.io/grade5-plants-interactive/plant-learning-site.html)
+- **金桔授粉結果動畫獨立頁**：[https://diberchi.github.io/grade5-plants-interactive/flower-fruit-animation.html](https://diberchi.github.io/grade5-plants-interactive/flower-fruit-animation.html)
+
+---
+
+## 🚀 本機啟動方式
 
 - **Windows 電腦**：直接雙擊執行 `點我啟動教學網站.bat` 或以任何瀏覽器（Chrome、Edge、Firefox）開啟 `index.html`。
 - **Mac / Linux 電腦**：直接點擊開啟 `index.html`。
 - 免安裝 Node.js、Python 或任何後端伺服器，100% 離線可用！
+

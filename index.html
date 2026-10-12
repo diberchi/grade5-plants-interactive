@@ -860,6 +860,120 @@ footer a:hover {
   text-decoration: underline;
 }
 
+/* AI 提示詞卡片與複製按鈕 */
+.prompt-card {
+  background: rgba(15, 34, 26, 0.95);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin: 16px 0;
+  position: relative;
+}
+.prompt-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.prompt-card-title {
+  color: var(--primary-light);
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.prompt-box {
+  background: #020d08;
+  color: #a7f3d0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-all;
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  margin: 10px 0;
+  position: relative;
+}
+.copy-prompt-btn {
+  background: #10b981;
+  color: #031c12;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.copy-prompt-btn:hover {
+  background: #34d399;
+  transform: translateY(-2px);
+}
+.copy-prompt-btn.copied {
+  background: #fbbf24 !important;
+  color: #031c12 !important;
+}
+.prompt-desc {
+  font-size: 0.92rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* 種子傳播卡片網格 */
+.seed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+.seed-grid-item {
+  background: rgba(11, 36, 28, 0.7);
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.seed-grid-item:hover, .seed-grid-item.active {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.2);
+}
+.seed-grid-icon { font-size: 2.2rem; margin-bottom: 6px; }
+.seed-grid-title { font-weight: 800; color: var(--primary-light); font-size: 1.05rem; }
+.seed-grid-desc { font-size: 0.84rem; color: #a7f3d0; margin-top: 4px; }
+
+/* 外連按鈕與微課連結 */
+.link-pill-btn {
+  background: rgba(251, 191, 36, 0.15);
+  border: 1.5px solid #fbbf24;
+  color: #fbbf24;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.link-pill-btn:hover {
+  background: #fbbf24;
+  color: #042618;
+  transform: translateY(-2px);
+}
+
 </style>
 </head>
 <body>
@@ -876,6 +990,7 @@ footer a:hover {
     </div>
     <div class="header-tools">
       <button class="btn-tool" id="btn-tv-mode" onclick="toggleTvMode()">📺 大電視投影模式</button>
+      <a href="plant-learning-site.html" target="_blank" class="btn-tool" style="border-color: #fbbf24; color: #fbbf24; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">🌸 獨立授粉微課 ↗</a>
       <button class="btn-tool" onclick="openQrModal()" style="border-color: #38bdf8; color: #38bdf8;">📱 學生掃碼</button>
       <button class="btn-tool" onclick="switchTab('tab-lesson')">📋 13節教案與學習單</button>
     </div>
@@ -924,6 +1039,8 @@ footer a:hover {
       <button class="nav-tab" data-tab="tab-2-1" onclick="switchTab('tab-2-1')">🌊 2-1 不同環境的植物</button>
       <button class="nav-tab" data-tab="tab-2-2" onclick="switchTab('tab-2-2')">💧 2-2 植物存活的本事</button>
       <button class="nav-tab" data-tab="tab-2-3" onclick="switchTab('tab-2-3')">🌸 2-3 植物繁衍大顯身手</button>
+      <button class="nav-tab" data-tab="tab-kumquat" onclick="switchTab('tab-kumquat')">🍊 2-3 金桔授粉結果微課</button>
+      <button class="nav-tab" data-tab="tab-flow-prompt" onclick="switchTab('tab-flow-prompt')">🎬 AI 影片提示詞庫</button>
       <button class="nav-tab" data-tab="tab-2-4" onclick="switchTab('tab-2-4')">🔍 2-4 植物的特徵與分類</button>
       <button class="nav-tab" data-tab="tab-summary" onclick="switchTab('tab-summary')">📚 單元重點筆記</button>
       <button class="nav-tab" data-tab="tab-quiz" onclick="switchTab('tab-quiz')">🎯 10題隨堂搶答測驗</button>
@@ -998,6 +1115,24 @@ footer a:hover {
             <span class="tag-item">開花植物</span>
             <span class="tag-item">蕨類孢子</span>
           </div>
+        </div>
+      </div>
+
+      <!-- 昨晚新發布微課焦點卡片 -->
+      <div class="info-card" style="margin-top: 24px; border: 2px solid #fbbf24; background: rgba(30, 27, 7, 0.65);">
+        <div class="info-card-header">
+          <div class="info-card-icon">🌟</div>
+          <div class="info-card-title" style="color: #fbbf24;">最新整合：2-3 金桔授粉結果微課 ＆ Google Flow AI 影片提示詞庫</div>
+          <span class="tb-badge" style="background: #f59e0b; color: #000;">HOT 最新整合</span>
+        </div>
+        <p style="color: #fef3c7;">
+          專為翰林版五上自然單元二研發之互動微課已全面整併！包含<strong>金桔花剖面蜜蜂傳粉動畫</strong>、<strong>子房膨大變成金桔生長縮時</strong>、<strong>種子四大傳播方式</strong>、<strong>Google Flow 3D 影片提示詞</strong>與<strong>NotebookLM 探究家教系統</strong>。
+        </p>
+        <div style="display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap;">
+          <button class="btn-ctrl active" onclick="switchTab('tab-kumquat')">🍊 開啟金桔授粉結果微課</button>
+          <button class="btn-ctrl" onclick="switchTab('tab-flow-prompt')">🎬 瀏覽 AI 影片提示詞庫</button>
+          <a href="plant-learning-site.html" target="_blank" class="link-pill-btn">🌸 獨立微課全螢幕開啟 ↗</a>
+          <a href="flower-fruit-animation.html" target="_blank" class="link-pill-btn" style="border-color:#38bdf8; color:#38bdf8;">🐝 授粉結果動畫 ↗</a>
         </div>
       </div>
 
@@ -1311,6 +1446,24 @@ footer a:hover {
         <span class="tb-badge">有性生殖與無性繁殖</span>
       </div>
 
+      <!-- 金桔授粉微課快速入口橫幅 -->
+      <div class="info-card" style="margin-bottom: 20px; border: 1.5px solid #fbbf24; background: rgba(25, 23, 7, 0.7); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.4rem;">🍊</span>
+            <h3 style="color: #fbbf24; margin: 0; font-size: 1.15rem;">2-3 金桔授粉結果專題微課 ＆ AI 影片提示詞已整合上線！</h3>
+          </div>
+          <p style="margin: 6px 0 0 0; color: #fde68a; font-size: 0.9rem;">
+            支援金桔花剖面、蜜蜂授粉傳粉、子房膨大發育縮時、Google Flow (Veo) 提示詞庫與小學霸闖關測驗。
+          </p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn-ctrl active" onclick="switchTab('tab-kumquat')">👉 跳轉金桔微課專題</button>
+          <button class="btn-ctrl" onclick="switchTab('tab-flow-prompt')">🎬 AI 影片提示詞</button>
+          <a href="plant-learning-site.html" target="_blank" class="link-pill-btn">全螢幕開啟 ↗</a>
+        </div>
+      </div>
+
       <!-- Canvas 模擬器 3 -->
       <div class="sim-container">
         <div class="sim-toolbar">
@@ -1401,6 +1554,152 @@ footer a:hover {
             <h4 style="color: var(--accent-gold); margin-bottom: 6px;">🥕 根繁殖</h4>
             <p><strong>甘藷（塊根）</strong>：將甘藷塊根泡水或埋入土中，可長出無數新芽與新藤！<br><strong>胡蘿蔔</strong>：切下頂端帶根冠部分泡水，可長出綠葉新芽。<br><strong>大麗菊</strong>也是常見利用塊根繁殖的觀賞花卉。</p>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 分頁: 2-3 金桔開花、蜜蜂授粉與結果微課 -->
+  <div id="tab-kumquat" class="tab-pane">
+    <div class="textbook-section">
+      <div class="tb-header">
+        <h2 class="tb-title">🍊 2-3 金桔開花、授粉與果實發育微課（課本 p.54～57）</h2>
+        <span class="tb-badge">高互動微課系統</span>
+      </div>
+
+      <!-- 操作頂部工具列與獨立開啟連結 -->
+      <div class="info-card" style="margin-bottom: 18px; border: 1px solid var(--border-glow); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.5rem;">🌿</span>
+          <div>
+            <div style="font-weight: 700; color: var(--primary-light);">國小五上自然單元二：植物開花、授粉、結果與種子傳播全方位微課</div>
+            <div style="font-size: 0.85rem; color: #a7f3d0;">支援教室大電視投影、iPad 學生平板操作、或新分頁獨立全螢幕運行</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="plant-learning-site.html" target="_blank" class="link-pill-btn">🖥️ 全螢幕獨立開啟微課網站 ↗</a>
+          <a href="flower-fruit-animation.html" target="_blank" class="link-pill-btn" style="border-color:#38bdf8; color:#38bdf8;">🐝 獨立開啟授粉結果動畫 ↗</a>
+          <button class="btn-ctrl" onclick="switchTab('tab-flow-prompt')">🎬 查看 AI 影片提示詞庫</button>
+        </div>
+      </div>
+
+      <!-- 站內無縫嵌入微課主體 -->
+      <div style="width: 100%; border-radius: 16px; overflow: hidden; border: 2px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: #ffffff;">
+        <iframe src="plant-learning-site.html" style="width: 100%; height: 920px; border: none; display: block;" title="五上自然金桔授粉結果微課"></iframe>
+      </div>
+
+      <!-- 課堂投影重點總結卡片 -->
+      <div class="grid-2" style="margin-top: 24px;">
+        <div class="info-card">
+          <div class="info-card-header">
+            <div class="info-card-icon">🌸</div>
+            <div class="info-card-title">金桔花授粉與結果核心公式</div>
+          </div>
+          <p>• <strong>授粉（Pollination）</strong>：雄蕊花藥產生之花粉粒，經由蜜蜂或風力傳遞至雌蕊柱頭之過程。</p>
+          <p>• <strong>花落之後</strong>：花瓣與雄蕊逐漸枯萎脫落，營養集中運往中央子房。</p>
+          <div class="highlight-box" style="margin-top: 10px;">
+            <h4>🏆 國小自然段考必勝口訣：</h4>
+            <p style="font-size: 1.05rem; font-weight: 800; color: #fbbf24;">雌蕊【子房】膨大 ➔ 發育為【果實（果肉）】！<br>子房內【胚珠】發育 ➔ 成為【種子】！</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-header">
+            <div class="info-card-icon">🚀</div>
+            <div class="info-card-title">種子四大傳播特徵速查表</div>
+          </div>
+          <p>• <strong>風力</strong>：蒲公英（冠毛降落傘）、青楓（薄翅竹蜻蜓）、木棉（棉絮）。</p>
+          <p>• <strong>動物</strong>：榕樹（果肉吸引鳥吃排便）、大花咸豐草（倒鉤刺黏褲管與狗毛）。</p>
+          <p>• <strong>自身彈力</strong>：非洲鳳仙花、黃花酢漿草（果莢乾燥成熟碰觸即爆裂彈出）。</p>
+          <p>• <strong>水力</strong>：椰子、棋盤腳（果皮厚纖維與氣室，海漂數百公里發芽）。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 分頁: Google Flow AI 影片提示詞庫與 NotebookLM 系統 -->
+  <div id="tab-flow-prompt" class="tab-pane">
+    <div class="textbook-section">
+      <div class="tb-header">
+        <h2 class="tb-title">🎬 Google Flow (Veo) 3D AI 影片提示詞庫 ＆ NotebookLM 系統</h2>
+        <span class="tb-badge">AI 教學應用</span>
+      </div>
+
+      <div class="info-card" style="margin-bottom: 20px;">
+        <div class="info-card-header">
+          <div class="info-card-icon">💡</div>
+          <div class="info-card-title">使用說明：Google Flow (Veo) 影片生成</div>
+        </div>
+        <p>前往 <a href="https://flow.google.com" target="_blank" style="color: #38bdf8; font-weight: 700;">Google Flow (flow.google.com)</a>，點擊下方卡片的<strong>「📋 複製 Prompt」</strong>按鈕，直接貼入即可生成 3D 皮克斯風格、繁體中文標籤、台灣國語說中文語音的生動教學短片！</p>
+      </div>
+
+      <!-- 提示詞卡片 1: 金桔花授粉到結果全流程 -->
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <div class="prompt-card-title">
+            <span>🍊 提示詞 1：金桔花授粉到結果全流程精華短片（皮克斯 3D）</span>
+            <span class="tb-badge" style="background:#10b981; color:#031c12;">課本 p.54～55</span>
+          </div>
+          <button class="copy-prompt-btn" onclick="copyPromptText(this, 'prompt-text-kumquat')">📋 複製英文 Prompt</button>
+        </div>
+        <div class="prompt-box" id="prompt-text-kumquat">Cinematic 3D educational animation, Pixar style. Accompanied by gentle, clear Traditional Chinese (Taiwan Mandarin, 台灣國語) voiceover narration explaining plant reproduction to 5th-grade elementary students. All on-screen annotations, diagrams, and subtitles must strictly be in Traditional Chinese (繁體中文, 台灣用語). Macro cross-section of a blooming white kumquat flower (金桔花) under bright natural sunlight. A cute fuzzy honeybee covered in golden pollen lands on the flower, transferring glowing pollen grains from the anther to the sticky stigma of the pistil (授粉). Seamless magical time-lapse: the flower petals fall off, the green ovary at the center begins to swell and ripen, transforming into a plump, vibrant orange round kumquat fruit. The fruit splits open in a clean 3D cross-section, displaying clear Traditional Chinese annotations pointing to the juicy pulp originating from the ovary (子房 ➔ 果實) and seeds originating from the ovules (胚珠 ➔ 種子). Scientifically accurate for elementary school, vibrant colors, warm lighting, ultra-detailed 4K resolution.</div>
+        <div class="prompt-desc">
+          <strong>中文畫面細節：</strong>盛開白色金桔花微距剖面。可愛小蜜蜂沾滿金色花粉粒降落，將花粉傳至柱頭（授粉）。無縫縮時：白色花瓣隨後凋落，中心的綠色子房開始膨大成熟，逐漸轉變成一顆飽滿鮮豔的橙色圓形金桔果實。果實平滑切開呈現 3D 剖面，展示子房發育成的多汁果肉，以及胚珠發育成的種子。
+        </div>
+      </div>
+
+      <!-- 提示詞卡片 2: 種子四大傳播大冒險 -->
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <div class="prompt-card-title">
+            <span>🚀 提示詞 2：種子四大傳播大冒險（風力、動物、彈力、水力）</span>
+            <span class="tb-badge" style="background:#38bdf8; color:#031c12;">課本 p.56～57</span>
+          </div>
+          <button class="copy-prompt-btn" onclick="copyPromptText(this, 'prompt-text-seeds')">📋 複製英文 Prompt</button>
+        </div>
+        <div class="prompt-box" id="prompt-text-seeds">Cinematic 3D Pixar animation style. Accompanied by lively, cheerful, and clear Traditional Chinese (Taiwan Mandarin, 台灣國語) voiceover narration explaining the wondrous journey of plant seeds to 5th-grade elementary students. All on-screen captions, botanical labels, and title cards must strictly be displayed in Traditional Chinese (繁體中文, zh-TW). Seamless rapid montage of 4 seed dispersal methods:
+1. 風力傳播 (Wind Dispersal): A fluffy dandelion clock blown by gentle wind, parachute-like seeds gliding across sunny meadow, followed by winged maple samaras spinning like helicopters through golden air (青楓薄翅).
+2. 動物傳播 (Animal Dispersal): A cheerful sparrow eating ripe banyan figs (榕樹果實) on a branch; nearby, Bidens pilosa burrs with tiny hooked spines (大花咸豐草倒勾刺) sticking onto a puppy's fluffy fur as it runs.
+3. 自身彈力 (Explosive Self-Dispersal): Macro slow-motion of a ripe African touch-me-not pod (非洲鳳仙花) bursting open violently, launching dark shiny seeds like miniature fireworks.
+4. 水力傳播 (Water Dispersal): A buoyant coconut and fibrous Barringtonia fruit (棋盤腳) bobbing on turquoise waves, washing onto a sunny sandy beach to sprout a fresh green shoot.
+Each scene features a clear, elegant Traditional Chinese title card at the top. Warm natural lighting, cheerful educational tone, ultra-detailed 4K resolution.</div>
+        <div class="prompt-desc">
+          <strong>中文畫面細節：</strong>精緻 3D 皮克斯動畫風格。配有生動活潑的台灣國語語音旁白。繁體中文標題卡依序展示：風力傳播（蒲公英冠毛與青楓薄翅）、動物傳播（麻雀吃榕樹果與咸豐草黏狗毛）、自身彈力（非洲鳳仙花爆裂彈射種子）、水力傳播（椰子與棋盤腳海漂發芽）。
+        </div>
+      </div>
+
+      <!-- 提示詞卡片 3: 第一單元太陽的祕密 -->
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <div class="prompt-card-title">
+            <span>☀️ 提示詞 3：第一單元《太陽的祕密》四季運行與彩虹折射</span>
+            <span class="tb-badge" style="background:#fbbf24; color:#031c12;">單元一 太陽與影子</span>
+          </div>
+          <button class="copy-prompt-btn" onclick="copyPromptText(this, 'prompt-text-sun')">📋 複製英文 Prompt</button>
+        </div>
+        <div class="prompt-box" id="prompt-text-sun">3D educational visual infographic, Pixar animation style. Miniature Taiwanese elementary school ground with cardinal directions (E, W, S, N) clearly marked. A translucent celestial dome overhead shows three distinct glowing solar arcs: Summer Solstice at the highest noon altitude (89°), Spring/Autumn Equinox in the middle, and Winter Solstice at the lowest arc. A curious schoolboy observes the pole shadow shortening at noon during summer and stretching very long during winter. Followed by a sunny shot where the boy stands with back to the sun, spraying a gentle mist into the air to reveal a glowing 7-color rainbow arch refracting in the sunlight. Warm lighting, cheerful educational tone, 4K resolution.</div>
+        <div class="prompt-desc">
+          <strong>中文畫面細節：</strong>天球立體弧線展示春分秋分、夏至、冬至太陽高度角軌跡；正午竿影夏至極短 vs 冬至極長；背對太陽噴水製造色散彩虹。
+        </div>
+      </div>
+
+      <!-- NotebookLM 家教系統卡片 -->
+      <div class="prompt-card" style="border-color: #c084fc;">
+        <div class="prompt-card-header">
+          <div class="prompt-card-title" style="color: #c084fc;">
+            <span>🤖 NotebookLM 自然科專屬探究家教自訂角色提示詞</span>
+            <span class="tb-badge" style="background:#c084fc; color:#031c12;">AI 探究助教</span>
+          </div>
+          <button class="copy-prompt-btn" onclick="copyPromptText(this, 'prompt-text-notebooklm')" style="background:#c084fc;">📋 複製自訂角色指令</button>
+        </div>
+        <div class="prompt-box" id="prompt-text-notebooklm">你是一位專業、有耐心且幽默風趣的台灣國小五年級自然科學專屬探究學伴（自然小達人）。你的學生是國小五年級學生，來源檔案包含翰林版五上自然課本與習作。
+請遵循以下最高準則：
+1. 【嚴禁直接給予最終答案】：強制採用 POE 探究引導法（預測-觀察-解釋）與蘇格拉底提問法，一步步引導孩子自己從課本實驗或圖表中找出答案。
+2. 【嚴格限制在國小 108 課綱範圍內】：絕對不使用超出國小程度之高中或大學專有名詞（嚴禁出現司乃耳定律、氧化還原電位、化學方程式等）。一律用五小學生能理解的生活比喻與課本實驗事實說明。
+3. 【精準標註出處】：每個解說與引導均需標註課本出處（如：課本第 54 頁、習作第 28 頁）。
+4. 【全程使用繁體中文（台灣）】：文字親切溫暖、多用條列式排版，結尾固定附上【想一想小提問】激發探究好奇心。</div>
+        <div class="prompt-desc">
+          <strong>使用方法：</strong>開啟 Google NotebookLM 筆記本，點擊右上角「設定對話」➔「自訂角色」，貼入上述指令，即可將課本 PDF 轉換為安全、防超綱、重探究的專屬自然科家教助教。
         </div>
       </div>
     </div>
@@ -1800,9 +2099,46 @@ function playSound(type) {
       osc.start(now);
       osc.stop(now + 0.15);
     }
-  } catch (e) {
-    console.log("Audio not supported or restricted:", e);
+// 一鍵複製提示詞
+function copyPromptText(btn, textId) {
+  const el = document.getElementById(textId);
+  if (!el) return;
+  const text = el.innerText || el.textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      playSound('correct');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✅ 已複製！';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(err => {
+      fallbackCopy(text, btn);
+    });
+  } else {
+    fallbackCopy(text, btn);
   }
+}
+
+function fallbackCopy(text, btn) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    playSound('correct');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✅ 已複製！';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.innerHTML = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  } catch(e) {}
+  document.body.removeChild(ta);
 }
 
 // 碎紙花效果 (Canvas Confetti)

@@ -850,4 +850,118 @@ footer a {
 footer a:hover {
   text-decoration: underline;
 }
+
+/* AI 提示詞卡片與複製按鈕 */
+.prompt-card {
+  background: rgba(15, 34, 26, 0.95);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin: 16px 0;
+  position: relative;
+}
+.prompt-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.prompt-card-title {
+  color: var(--primary-light);
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.prompt-box {
+  background: #020d08;
+  color: #a7f3d0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-all;
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  margin: 10px 0;
+  position: relative;
+}
+.copy-prompt-btn {
+  background: #10b981;
+  color: #031c12;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.copy-prompt-btn:hover {
+  background: #34d399;
+  transform: translateY(-2px);
+}
+.copy-prompt-btn.copied {
+  background: #fbbf24 !important;
+  color: #031c12 !important;
+}
+.prompt-desc {
+  font-size: 0.92rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* 種子傳播卡片網格 */
+.seed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+.seed-grid-item {
+  background: rgba(11, 36, 28, 0.7);
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.seed-grid-item:hover, .seed-grid-item.active {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.2);
+}
+.seed-grid-icon { font-size: 2.2rem; margin-bottom: 6px; }
+.seed-grid-title { font-weight: 800; color: var(--primary-light); font-size: 1.05rem; }
+.seed-grid-desc { font-size: 0.84rem; color: #a7f3d0; margin-top: 4px; }
+
+/* 外連按鈕與微課連結 */
+.link-pill-btn {
+  background: rgba(251, 191, 36, 0.15);
+  border: 1.5px solid #fbbf24;
+  color: #fbbf24;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.link-pill-btn:hover {
+  background: #fbbf24;
+  color: #042618;
+  transform: translateY(-2px);
+}
 """

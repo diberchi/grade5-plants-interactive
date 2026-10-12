@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>國小五上自然：金桔花的授粉與結果互動教學動畫</title>
+<style>
+  body {
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+    color: #2e7d32;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .header-card {
+    background: white;
+    padding: 15px 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    margin-bottom: 20px;
+    max-width: 900px;
+    width: 100%;
+  }
+  h1 { margin: 0 0 8px 0; font-size: 26px; color: #1b5e20; }
+  .subtitle { font-size: 16px; color: #4caf50; font-weight: bold; }
+  .main-stage {
+    position: relative;
+    width: 900px;
+    height: 520px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    overflow: hidden;
+    border: 3px solid #81c784;
+  }
+  canvas {
+    width: 100%;
+    height: 100%;
+  }
+  .controls {
+    display: flex;
+    gap: 15px;
+    margin-top: 18px;
+  }
+  .btn {
+    background: #43a047;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: all 0.2s;
+  }
+  .btn:hover {
+    background: #2e7d32;
+    transform: translateY(-2px);
+  }
+  .info-box {
+    margin-top: 15px;
+    max-width: 900px;
+    width: 100%;
+    background: #fff9c4;
+    border-left: 8px solid #fbc02d;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 17px;
+    color: #37474f;
+    line-height: 1.6;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .badge {
+    background: #ff7043;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<div class="header-card">
+  <h1>🌿 國小五上自然：植物開花、授粉與結果教學動畫</h1>
+  <div class="subtitle">翰林版課本 第 54 ~ 55 頁【金桔花構造剖面與果實發育】</div>
+</div>
+
+<div class="main-stage">
+  <canvas id="stageCanvas" width="900" height="520"></canvas>
+</div>
+
+<div class="controls">
+  <button class="btn" onclick="startBeePollination()">🐝 步驟一：蜜蜂傳粉（授粉）</button>
+  <button class="btn" onclick="startFruiting()">🍊 步驟二：花落結果（子房與胚珠發育）</button>
+  <button class="btn" onclick="resetStage()" style="background:#e53935;">🔄 重新觀察花朵剖面</button>
+</div>
+
+<div class="info-box" id="infoText">
+  <strong>📌 課本重點（第 54 頁）：</strong><br>
+  1. <strong>授粉</strong>：植物開花後，<strong>雄蕊</strong>上的花粉傳到<strong>雌蕊</strong>的柱頭上。<br>
+  2. <strong>結果</strong>：授粉後，外側的<strong>【子房】</strong>發育為<strong>【果實】</strong>；內側的<strong>【胚珠】</strong>發育為<strong>【種子】</strong>！
+</div>
+
+<script>
+const canvas = document.getElementById('stageCanvas');
+const ctx = canvas.getContext('2d');
+const infoText = document.getElementById('infoText');
+
+let state = 'flower'; // 'flower', 'pollinating', 'fruiting'
+let animProgress = 0;
+let beeX = 120, beeY = 120;
+let fruitScale = 0;
+
+function drawBackground() {
+  ctx.fillStyle = '#f1f8e9';
+  ctx.fillRect(0, 0, 900, 520);
+  
+  // 陽光射線
+  ctx.fillStyle = 'rgba(255, 235, 59, 0.15)';
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(250, 0);
+  ctx.lineTo(450, 520);
+  ctx.lineTo(100, 520);
+  ctx.fill();
+}
+
+function drawFlower() {
+  const cx = 450, cy = 300;
+  
+  // 花莖
+  ctx.strokeStyle = '#4caf50';
+  ctx.lineWidth = 14;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy + 120);
+  ctx.lineTo(cx, 480);
+  ctx.stroke();
+
+  // 花萼 (綠色底座)
+  ctx.fillStyle = '#66bb6a';
+  ctx.beginPath();
+  ctx.moveTo(cx - 50, cy + 120);
+  ctx.lineTo(cx + 50, cy + 120);
+  ctx.lineTo(cx, cy + 160);
+  ctx.fill();
+
+  // 若不是在完全結果狀態，繪製花瓣
+  if (state !== 'fruiting' || fruitScale < 0.6) {
+    const alpha = state === 'fruiting' ? (1 - fruitScale / 0.6) : 1;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = '#ffffff';
+    ctx.strokeStyle = '#cfd8dc';
+    ctx.lineWidth = 3;
+    
+    // 左側大花瓣
+    ctx.beginPath();
+    ctx.ellipse(cx - 160, cy + 60, 150, 55, -0.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    // 右側大花瓣
+    ctx.beginPath();
+    ctx.ellipse(cx + 160, cy + 60, 150, 55, 0.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // 雄蕊群（多根花絲 + 花藥）
+  if (state !== 'fruiting' || fruitScale < 0.4) {
+    const alpha = state === 'fruiting' ? (1 - fruitScale / 0.4) : 1;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    const stamenOffsets = [-90, -60, -35, 35, 60, 90];
+    stamenOffsets.forEach(ox => {
+      ctx.strokeStyle = '#fff9c4';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(cx + ox * 0.4, cy + 110);
+      ctx.lineTo(cx + ox, cy - 30);
+      ctx.stroke();
+
+      // 花藥（頂部金黃）
+      ctx.fillStyle = '#fbc02d';
+      ctx.beginPath();
+      ctx.ellipse(cx + ox, cy - 35, 8, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.restore();
+  }
+
+  // 雌蕊中央構造（柱頭、花柱、子房、胚珠）
+  if (state !== 'fruiting') {
+    // 綠色子房（基部）
+    ctx.fillStyle = '#a5d6a7';
+    ctx.strokeStyle = '#388e3c';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + 85, 45, 40, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // 胚珠（子房內部綠色小點）
+    ctx.fillStyle = '#2e7d32';
+    ctx.beginPath();
+    ctx.arc(cx - 15, cy + 85, 8, 0, Math.PI * 2);
+    ctx.arc(cx + 15, cy + 85, 8, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 花柱
+    ctx.strokeStyle = '#c8e6c9';
+    ctx.lineWidth = 14;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy + 50);
+    ctx.lineTo(cx, cy - 80);
+    ctx.stroke();
+
+    // 柱頭（頂部略呈黃色盤狀）
+    ctx.fillStyle = '#fff176';
+    ctx.strokeStyle = '#fbc02d';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy - 85, 22, 10, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // 文字標籤
+    drawLabel(cx - 260, cy + 40, "花瓣 (白色保護吸引昆蟲)");
+    drawLabel(cx - 140, cy - 50, "雄蕊：花藥(有花粉) + 花絲");
+    drawLabel(cx + 80, cy - 90, "雌蕊：柱頭(具黏性接受花粉)");
+    drawLabel(cx + 80, cy - 20, "花柱");
+    drawLabel(cx + 90, cy + 70, "【子房】➔ 將發育為果實");
+    drawLabel(cx + 90, cy + 105, "【胚珠】➔ 將發育為種子");
+  } else {
+    // 果實膨大成長動畫
+    const r = 35 + fruitScale * 90;
+    const fruitColor = fruitScale < 0.5 ? '#81c784' : '#ffa726';
+    ctx.fillStyle = fruitColor;
+    ctx.strokeStyle = '#e65100';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(cx, cy + 40, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    if (fruitScale >= 0.8) {
+      // 剖面切開展示內部：果肉(子房)與種子(胚珠)
+      ctx.fillStyle = '#ffe082';
+      ctx.beginPath();
+      ctx.arc(cx, cy + 40, r - 8, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 種子（原胚珠）
+      ctx.fillStyle = '#8d6e63';
+      ctx.beginPath();
+      ctx.ellipse(cx - 30, cy + 30, 16, 9, 0.4, 0, Math.PI*2);
+      ctx.ellipse(cx + 30, cy + 50, 16, 9, -0.4, 0, Math.PI*2);
+      ctx.ellipse(cx, cy + 65, 14, 8, 0, 0, Math.PI*2);
+      ctx.fill();
+
+      drawLabel(cx - 280, cy + 10, "金桔果肉（由【子房】發育膨大）");
+      drawLabel(cx + 120, cy + 40, "金桔種子（由【胚珠】受精發育）");
+    }
+  }
+}
+
+function drawLabel(x, y, text) {
+  ctx.font = "bold 15px Microsoft JhengHei";
+  const w = ctx.measureText(text).width;
+  ctx.fillStyle = "rgba(255,255,255,0.92)";
+  ctx.fillRect(x - 6, y - 16, w + 12, 24);
+  ctx.strokeStyle = "#81c784";
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(x - 6, y - 16, w + 12, 24);
+  ctx.fillStyle = "#1b5e20";
+  ctx.fillText(text, x, y);
+}
+
+function drawBee(x, y) {
+  ctx.save();
+  ctx.translate(x, y);
+  
+  // 蜜蜂翅膀
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+  ctx.beginPath();
+  ctx.ellipse(-8, -18, 12, 6, -0.5, 0, Math.PI*2);
+  ctx.ellipse(8, -18, 12, 6, 0.5, 0, Math.PI*2);
+  ctx.fill();
+
+  // 蜜蜂身體 (黃黑相間)
+  ctx.fillStyle = '#ffca28';
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 16, 11, 0, 0, Math.PI*2);
+  ctx.fill();
+  
+  ctx.fillStyle = '#212121';
+  ctx.fillRect(-5, -10, 4, 20);
+  ctx.fillRect(3, -10, 4, 20);
+
+  // 身上沾染的花粉金色亮點
+  ctx.fillStyle = '#ffd600';
+  ctx.beginPath();
+  ctx.arc(-8, 5, 3, 0, Math.PI*2);
+  ctx.arc(0, 7, 3, 0, Math.PI*2);
+  ctx.arc(8, 6, 3, 0, Math.PI*2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function render() {
+  drawBackground();
+  drawFlower();
+
+  if (state === 'pollinating') {
+    drawBee(beeX, beeY);
+  }
+
+  requestAnimationFrame(render);
+}
+
+function startBeePollination() {
+  state = 'pollinating';
+  beeX = 120; beeY = 80;
+  infoText.innerHTML = "<strong>🐝 授粉中：</strong>蜜蜂被金桔花的香氣與花蜜吸引，在雄蕊取蜜時身上沾滿了金色花粉粒，隨後飛落到雌蕊柱頭上，把花粉傳給柱頭——這就是<strong>【授粉】</strong>！";
+  
+  let step = 0;
+  const interval = setInterval(() => {
+    step++;
+    if (step < 40) {
+      // 飛到左側雄蕊花藥
+      beeX += (380 - beeX) * 0.08;
+      beeY += (250 - beeY) * 0.08;
+    } else if (step < 90) {
+      // 飛到雌蕊柱頭
+      beeX += (450 - beeX) * 0.08;
+      beeY += (210 - beeY) * 0.08;
+    } else {
+      clearInterval(interval);
+      infoText.innerHTML = "<strong>✅ 授粉完成！</strong>花粉已成功傳遞至雌蕊柱頭！接下來花粉將與胚珠結合，請點擊「步驟二：花落結果」觀察果實與種子的形成！";
+    }
+  }, 30);
+}
+
+function startFruiting() {
+  state = 'fruiting';
+  fruitScale = 0;
+  infoText.innerHTML = "<strong>🍊 發育結果：</strong>授粉完成後，花瓣與雄蕊逐漸枯萎掉落。雌蕊的<strong>【子房】</strong>吸收養分日漸膨大發育成<strong>【金桔果實】</strong>，內側的<strong>【胚珠】</strong>發育為<strong>【種子】</strong>！";
+  
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 0.015;
+    fruitScale = Math.min(progress, 1);
+    if (fruitScale >= 1) {
+      clearInterval(interval);
+      infoText.innerHTML = "<strong>🎉 果實成熟剖面！</strong><br>清晰可見：金桔果肉由<strong>【子房】</strong>發育而成；一顆顆種子由<strong>【胚珠】</strong>發育而成！完全符合課本第 54-55 頁核心考點！";
+    }
+  }, 30);
+}
+
+function resetStage() {
+  state = 'flower';
+  fruitScale = 0;
+  infoText.innerHTML = "<strong>📌 課本重點（第 54 頁）：</strong><br>1. <strong>授粉</strong>：植物開花後，<strong>雄蕊</strong>上的花粉傳到<strong>雌蕊</strong>的柱頭上。<br>2. <strong>結果</strong>：授粉後，外側的<strong>【子房】</strong>發育為<strong>【果實】</strong>；內側的<strong>【胚珠】</strong>發育為<strong>【種子】</strong>！";
+}
+
+render();
+</script>
+</body>
+</html>

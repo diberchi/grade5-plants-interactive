@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>五上自然科學線上學習網：植物開花、授粉、結果與種子傳播</title>
+<style>
+  :root {
+    --primary: #2e7d32;
+    --primary-light: #e8f5e9;
+    --accent: #ff9800;
+    --accent-light: #fff3e0;
+    --sky: #0288d1;
+    --dark: #263238;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+    background: #f4fbf4;
+    color: var(--dark);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%);
+    color: white;
+    padding: 24px 20px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  header h1 { margin: 0; font-size: 26px; letter-spacing: 1px; }
+  header p { margin: 6px 0 0; font-size: 15px; opacity: 0.95; }
+  
+  nav {
+    display: flex;
+    justify-content: center;
+    background: white;
+    padding: 10px 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .nav-btn {
+    background: #f1f8e9;
+    border: 2px solid #c8e6c9;
+    color: var(--primary);
+    padding: 9px 18px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover, .nav-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(46,125,50,0.25);
+  }
+
+  .container {
+    max-width: 1060px;
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card {
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    margin-bottom: 24px;
+    border: 1px solid #e0f2f1;
+  }
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    color: var(--primary);
+    margin-top: 0;
+    border-bottom: 2px solid #e8f5e9;
+    padding-bottom: 12px;
+  }
+  .highlight-badge {
+    background: #ff7043;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+
+  .stage-box {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    background: #f9fbe7;
+    border-radius: 16px;
+    border: 3px solid #c5e1a5;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  canvas { width: 100%; height: 100%; display: block; }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 14px 0;
+  }
+  .action-btn {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(76,175,80,0.25);
+    transition: all 0.2s;
+  }
+  .action-btn:hover {
+    background: #388e3c;
+    transform: translateY(-2px);
+  }
+  .action-btn.secondary { background: #0288d1; }
+  .action-btn.secondary:hover { background: #01579b; }
+  .action-btn.reset { background: #e53935; }
+
+  .info-callout {
+    background: #fffde7;
+    border-left: 6px solid #fbc02d;
+    padding: 15px 18px;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 14px;
+    line-height: 1.6;
+  }
+
+  /* 四大傳播方式卡片網格 */
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+    margin: 18px 0;
+  }
+  .seed-card {
+    background: #fafafa;
+    border: 2px solid #e0e0e0;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .seed-card:hover, .seed-card.selected {
+    border-color: #43a047;
+    background: #f1f8e9;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(67,160,71,0.2);
+  }
+  .seed-icon { font-size: 40px; margin-bottom: 8px; }
+  .seed-title { font-size: 18px; font-weight: bold; color: #2e7d32; }
+  .seed-sub { font-size: 14px; color: #616161; margin-top: 4px; }
+
+  /* 提示詞卡片 */
+  .prompt-box {
+    background: #263238;
+    color: #eceff1;
+    border-radius: 12px;
+    padding: 16px;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin-top: 10px;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #ff9800;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .copy-btn:hover { background: #f57c00; }
+
+  /* 測驗區 */
+  .quiz-item {
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+  }
+  .quiz-q { font-size: 17px; font-weight: bold; margin-bottom: 10px; color: #1b5e20; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt {
+    background: white;
+    border: 2px solid #cfd8dc;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  .quiz-opt:hover { background: #f5f5f5; border-color: #90a4ae; }
+  .quiz-opt.correct { background: #c8e6c9 !important; border-color: #43a047 !important; color: #1b5e20; font-weight: bold; }
+  .quiz-opt.wrong { background: #ffcdd2 !important; border-color: #e53935 !important; color: #b71c1c; }
+  .quiz-feedback { margin-top: 8px; font-weight: bold; font-size: 15px; display: none; }
+
+  footer {
+    text-align: center;
+    padding: 25px;
+    color: #78909c;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌿 五上自然科學：植物的花、果實與種子傳播</h1>
+  <p>翰林版國小自然第五冊單元二【第 54 ~ 57 頁全方位互動微課】</p>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="switchTab('tab-flower')">🌸 單元一：花朵構造與授粉</button>
+  <button class="nav-btn" onclick="switchTab('tab-fruit')">🍊 單元二：花落結果探究</button>
+  <button class="nav-btn" onclick="switchTab('tab-seeds')">🚀 單元三：種子四大傳播方式</button>
+  <button class="nav-btn" onclick="switchTab('tab-flow')">🎬 單元四：Google Flow 影片提示詞</button>
+  <button class="nav-btn" onclick="switchTab('tab-quiz')">🎯 單元五：小學霸闖關測驗</button>
+</nav>
+
+<div class="container">
+
+  <!-- ==================== TAB 1: 花朵構造與授粉 ==================== -->
+  <div id="tab-flower" class="tab-pane active">
+    <div class="card">
+      <h2 class="card-title">
+        <span>🌸 金桔花構造剖面與蜜蜂授粉</span>
+        <span class="highlight-badge">課本第 54 頁</span>
+      </h2>
+      <p style="font-size:16px;">植物開花後，<strong>雄蕊</strong>上的花粉傳到<strong>雌蕊</strong>的柱頭上，這個過程稱為<strong>「授粉」</strong>。</p>
+      
+      <div class="stage-box">
+        <canvas id="canvasFlower" width="1000" height="480"></canvas>
+      </div>
+
+      <div class="btn-row">
+        <button class="action-btn" onclick="animFlower('pollinate')">🐝 觀察蜜蜂授粉（傳粉給柱頭）</button>
+        <button class="action-btn secondary" onclick="animFlower('showDetails')">🔍 放大檢視：花藥花粉與雌蕊胚珠</button>
+        <button class="action-btn reset" onclick="animFlower('reset')">🔄 重新觀察剖面</button>
+      </div>
+
+      <div class="info-callout" id="flowerInfo">
+        <strong>💡 課本觀察重點：</strong><br>
+        • <strong>雄蕊</strong>：包含頂端的<strong>「花藥」</strong>（製造黃色花粉粒）與下方的<strong>「花絲」</strong>。<br>
+        • <strong>雌蕊</strong>：包含頂端具有黏性的<strong>「柱頭」</strong>、中間細長的<strong>「花柱」</strong>，以及基部膨大的<strong>「子房」</strong>（內含<strong>胚珠</strong>）。<br>
+        • 蜜蜂等昆蟲被花蜜與花香吸引，身上沾滿花粉飛到柱頭上，順利完成「授粉」！
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 2: 花落結果 ==================== -->
+  <div id="tab-fruit" class="tab-pane">
+    <div class="card">
+      <h2 class="card-title">
+        <span>🍊 授粉之後：子房發育為果實、胚珠發育為種子</span>
+        <span class="highlight-badge">課本第 54-55 頁核心考點</span>
+      </h2>
+      <p style="font-size:16px;">授粉完成後，花瓣凋落，花朵中央悄悄發生了神奇的變化！點擊下方按鈕觀看發育縮時：</p>
+
+      <div class="stage-box">
+        <canvas id="canvasFruit" width="1000" height="480"></canvas>
+      </div>
+
+      <div class="btn-row">
+        <button class="action-btn" onclick="animFruit('grow')">🍊 啟動生長縮時：子房膨大變成金桔！</button>
+        <button class="action-btn secondary" onclick="animFruit('cut')">🔪 切開果實剖面：觀察果肉與種子</button>
+        <button class="action-btn reset" onclick="animFruit('reset')">🔄 重設為初始花朵</button>
+      </div>
+
+      <div class="info-callout" id="fruitInfo">
+        <strong>🔥 考試必考大重點（口訣記憶）：</strong><br>
+        <span style="font-size:18px; color:#d84315;"><strong>【子房 ➔ 發育為果實】</strong> ｜ <strong>【胚珠 ➔ 發育為種子】</strong></span><br>
+        金桔我們平常吃的酸甜多汁果肉，是由雌蕊的<strong>子房</strong>變大的；果肉裡面硬硬的一顆顆種子，則是由<strong>胚珠</strong>發育而成的！
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 3: 種子四大傳播方式 ==================== -->
+  <div id="tab-seeds" class="tab-pane">
+    <div class="card">
+      <h2 class="card-title">
+        <span>🚀 種子傳播大冒險：植物旅行的四種超能力</span>
+        <span class="highlight-badge">課本第 56-57 頁</span>
+      </h2>
+      <p style="font-size:16px;">果實成熟後，種子需要旅行到遠方生長，才不會跟母株爭奪陽光與養分。請點選下方卡片切換傳播模式：</p>
+
+      <div class="grid-4">
+        <div class="seed-card selected" onclick="selectDispersal('wind')">
+          <div class="seed-icon">🌬️</div>
+          <div class="seed-title">風力傳播</div>
+          <div class="seed-sub">蒲公英(冠毛)、青楓(薄翅)</div>
+        </div>
+        <div class="seed-card" onclick="selectDispersal('animal')">
+          <div class="seed-icon">🐦🐕</div>
+          <div class="seed-title">動物傳播</div>
+          <div class="seed-sub">榕樹(鳥吃下)、大花咸豐草(倒勾)</div>
+        </div>
+        <div class="seed-card" onclick="selectDispersal('pop')">
+          <div class="seed-icon">💥</div>
+          <div class="seed-title">自身彈力</div>
+          <div class="seed-sub">非洲鳳仙花、黃花酢漿草</div>
+        </div>
+        <div class="seed-card" onclick="selectDispersal('water')">
+          <div class="seed-icon">🌊🥥</div>
+          <div class="seed-title">水力傳播</div>
+          <div class="seed-sub">椰子、棋盤腳(耐水漂浮)</div>
+        </div>
+      </div>
+
+      <div class="stage-box">
+        <canvas id="canvasSeed" width="1000" height="480"></canvas>
+      </div>
+
+      <div class="btn-row">
+        <button class="action-btn" id="seedActionBtn" onclick="triggerSeedAction()">💨 啟動風吹：蒲公英降落傘起飛！</button>
+      </div>
+
+      <div class="info-callout" id="seedInfo">
+        <strong>🌬️ 風力傳播特點：</strong><br>
+        • <strong>蒲公英</strong>：果實具有細密如降落傘的<strong>冠毛</strong>，風一吹就輕柔地飄到天空中。<br>
+        • <strong>木棉</strong>：種子外包覆鬆軟棉絮，隨風四處飄揚。<br>
+        • <strong>青楓</strong>：果實長有兩片<strong>薄翅</strong>，掉落時會像小竹蜻蜓一樣旋轉飛翔到遠方！
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 4: GOOGLE FLOW 提示詞 ==================== -->
+  <div id="tab-flow" class="tab-pane">
+    <div class="card">
+      <h2 class="card-title">
+        <span>🎬 Google Flow (Veo) 專屬教學影片提示詞庫</span>
+        <span class="highlight-badge">一鍵複製生成</span>
+      </h2>
+      <p style="font-size:16px;">
+        點擊複製下方最適合五上自然的超高畫質英文提示詞，直接前往 
+        <a href="https://flow.google.com" target="_blank" style="color:#0288d1; font-weight:bold; text-decoration:underline;">Google Flow (flow.google.com)</a> 
+        產出皮克斯 3D 風格的自然教學短片：
+      </p>
+
+      <h3 style="color:#1b5e20; margin-top:20px;">1. 【金桔花剖面 ➔ 蜜蜂授粉 ➔ 子房膨大結果剖面】（全繁體中文 ＋ 說中文旁白）</h3>
+      <div class="prompt-box">
+        <button class="copy-btn" onclick="copyPrompt('p1')">複製提示詞</button>
+        <span id="p1">Cinematic 3D educational animation, Pixar style. Accompanied by clear, gentle Traditional Chinese (Taiwan Mandarin, 台灣國語) voiceover narration explaining plant reproduction to 5th-grade students. All on-screen labels, diagrams, and subtitles must strictly be in Traditional Chinese (繁體中文, 台灣用語). Macro cross-section of a blooming white kumquat flower (金桔花) under bright natural sunlight. A cute fuzzy honeybee covered in golden pollen lands on the flower, transferring glowing pollen grains from the anther to the sticky stigma of the pistil (授粉). Seamless magical time-lapse: the flower petals fall off, the green ovary at the center begins to swell and ripen, transforming into a plump, vibrant orange round kumquat fruit. The fruit splits open in a clean 3D cross-section, displaying clear Traditional Chinese annotations pointing to the juicy pulp originating from the ovary (子房 ➔ 果實) and seeds originating from the ovules (胚珠 ➔ 種子). Scientifically accurate for elementary school, vibrant colors, warm lighting, ultra-detailed 4K resolution.</span>
+      </div>
+
+      <h3 style="color:#1b5e20; margin-top:24px;">2. 【種子四大傳播大冒險：風力、動物、自彈、水力】（全繁體中文 ＋ 說中文旁白）</h3>
+      <div class="prompt-box">
+        <button class="copy-btn" onclick="copyPrompt('p2')">複製提示詞</button>
+        <span id="p2">Cinematic 3D Pixar animation style. Accompanied by lively, cheerful Traditional Chinese (Taiwan Mandarin, 台灣國語) voiceover narration telling the adventure of seeds traveling. All captions, on-screen titles, and infographic text must be displayed in Traditional Chinese (繁體中文). Seamless rapid montage of 4 seed dispersal methods:
+1. 風力傳播 (Wind): Fluffy dandelion clock blown by wind, parachute seeds gliding across sunny meadow, followed by winged maple samaras spinning like helicopters (青楓薄翅).
+2. 動物傳播 (Animal): A sparrow eating ripe banyan figs (榕樹果實); nearby, Bidens pilosa burrs with tiny hooked spines (大花咸豐草倒勾刺) sticking onto a puppy's fur.
+3. 自身彈力 (Explosive): Macro slow-motion of a ripe African touch-me-not pod (非洲鳳仙花) bursting open violently, launching seeds like fireworks.
+4. 水力傳播 (Water): A buoyant coconut and fibrous Barringtonia fruit (棋盤腳) bobbing on turquoise waves, washing onto beach to sprout.
+Clear Traditional Chinese title cards for each method, bright natural lighting, educational, 4K resolution.</span>
+      </div>
+
+      <div style="margin-top:20px; text-align:center;">
+        <a href="https://flow.google.com" target="_blank" class="action-btn secondary" style="display:inline-block; text-decoration:none; padding:14px 28px; font-size:18px;">
+          🚀 直達 Google Flow 官方生成平台 (flow.google.com)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 5: 闖關測驗 ==================== -->
+  <div id="tab-quiz" class="tab-pane">
+    <div class="card">
+      <h2 class="card-title">
+        <span>🎯 五上自然小學霸闖關測驗</span>
+        <span class="highlight-badge">課堂即時檢測</span>
+      </h2>
+      <p style="font-size:16px;">點選正確答案，看看你是不是植物小達人！</p>
+
+      <!-- 題 1 -->
+      <div class="quiz-item" data-answer="2">
+        <div class="quiz-q">1. （課本第54頁）我們平常吃的金桔果肉，主要是由花朵的哪一個部位發育膨大而成的？</div>
+        <div class="quiz-opts">
+          <div class="quiz-opt" onclick="checkQuiz(this, 1)">① 花瓣</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 2)">② 子房</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 3)">③ 雄蕊的花藥</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 4)">④ 胚珠</div>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <!-- 題 2 -->
+      <div class="quiz-item" data-answer="3">
+        <div class="quiz-q">2. （課本第54頁）植物授粉後，雌蕊內部的「胚珠」會發育成為什麼構造？</div>
+        <div class="quiz-opts">
+          <div class="quiz-opt" onclick="checkQuiz(this, 1)">① 花萼</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 2)">② 果實的果皮</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 3)">③ 種子</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 4)">④ 新的花柱</div>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <!-- 題 3 -->
+      <div class="quiz-item" data-answer="4">
+        <div class="quiz-q">3. （課本第56頁）走在草地上，褲管常常黏滿「大花咸豐草」的種子，這是利用什麼構造進行傳播？</div>
+        <div class="quiz-opts">
+          <div class="quiz-opt" onclick="checkQuiz(this, 1)">① 像降落傘的冠毛</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 2)">② 輕薄的翅膀</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 3)">③ 浮水纖維</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 4)">④ 具有倒鉤刺，勾附在動物毛皮或衣服上（動物傳播）</div>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <!-- 題 4 -->
+      <div class="quiz-item" data-answer="1">
+        <div class="quiz-q">4. （課本第56頁）輕輕觸碰成熟的「非洲鳳仙花」果莢，果莢會突然捲曲彈開將種子彈射出去，這屬於哪種傳播方式？</div>
+        <div class="quiz-opts">
+          <div class="quiz-opt" onclick="checkQuiz(this, 1)">① 自身彈力傳播</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 2)">② 水力傳播</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 3)">③ 風力傳播</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 4)">④ 動物排泄傳播</div>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <!-- 題 5 -->
+      <div class="quiz-item" data-answer="2">
+        <div class="quiz-q">5. （課本第57頁）椰子樹和棋盤腳生長在海邊，果實成熟掉入水中能夠漂流到其他島嶼，主要是因為果實具備什麼特徵？</div>
+        <div class="quiz-opts">
+          <div class="quiz-opt" onclick="checkQuiz(this, 1)">① 果實長滿倒鉤刺</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 2)">② 果實含有纖維質且比重輕，不易吸水腐爛，能浮在水面（水力傳播）</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 3)">③ 果實長有長長的冠毛可以飛</div>
+          <div class="quiz-opt" onclick="checkQuiz(this, 4)">④ 果實會像炸彈一樣彈跳到海裡</div>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  五上自然科學互動教學系統 ｜ 依據 108 課綱翰林版自然設計 ｜ 結合 Google Flow (Veo) 影片生成工作流
+</footer>
+
+<script>
+// Tab 切換
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// 複製提示詞
+function copyPrompt(id) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    alert("✅ 提示詞已複製到剪貼簿！可直接前往 Google Flow 貼上生成！");
+  });
+}
+
+// 測驗檢查
+function checkQuiz(optEl, chosen) {
+  const item = optEl.closest('.quiz-item');
+  const ans = parseInt(item.getAttribute('data-answer'));
+  const fb = item.querySelector('.quiz-feedback');
+  const allOpts = item.querySelectorAll('.quiz-opt');
+
+  allOpts.forEach(o => {
+    o.classList.remove('correct', 'wrong');
+    o.style.pointerEvents = 'none';
+  });
+
+  if (chosen === ans) {
+    optEl.classList.add('correct');
+    fb.style.display = 'block';
+    fb.style.color = '#2e7d32';
+    fb.innerHTML = '🎉 答對了！太厲害了，觀念完全正確！';
+  } else {
+    optEl.classList.add('wrong');
+    allOpts[ans - 1].classList.add('correct');
+    fb.style.display = 'block';
+    fb.style.color = '#c62828';
+    fb.innerHTML = '❌ 答錯囉！綠色標記的是正確答案，再複習一下課本重點喔！';
+  }
+}
+
+/* =====================================================================
+   CANVAS 1: 金桔花剖面與蜜蜂
+===================================================================== */
+const c1 = document.getElementById('canvasFlower');
+const ctx1 = c1.getContext('2d');
+let flowerMode = 'normal';
+let beePos = { x: 120, y: 120 };
+
+function drawFlowerCanvas() {
+  ctx1.clearRect(0, 0, 1000, 480);
+  ctx1.fillStyle = '#f1f8e9';
+  ctx1.fillRect(0, 0, 1000, 480);
+
+  const cx = 500, cy = 280;
+
+  // 花梗與花萼
+  ctx1.strokeStyle = '#4caf50'; ctx1.lineWidth = 16;
+  ctx1.beginPath(); ctx1.moveTo(cx, cy + 100); ctx1.lineTo(cx, 450); ctx1.stroke();
+
+  ctx1.fillStyle = '#66bb6a';
+  ctx1.beginPath(); ctx1.moveTo(cx - 60, cy + 100); ctx1.lineTo(cx + 60, cy + 100); ctx1.lineTo(cx, cy + 150); ctx1.fill();
+
+  // 白色花瓣
+  ctx1.fillStyle = '#ffffff'; ctx1.strokeStyle = '#cfd8dc'; ctx1.lineWidth = 3;
+  ctx1.beginPath(); ctx1.ellipse(cx - 190, cy + 50, 180, 60, -0.2, 0, Math.PI * 2); ctx1.fill(); ctx1.stroke();
+  ctx1.beginPath(); ctx1.ellipse(cx + 190, cy + 50, 180, 60, 0.2, 0, Math.PI * 2); ctx1.fill(); ctx1.stroke();
+
+  // 雄蕊
+  const stamens = [-110, -75, -40, 40, 75, 110];
+  stamens.forEach(ox => {
+    ctx1.strokeStyle = '#fff9c4'; ctx1.lineWidth = 5;
+    ctx1.beginPath(); ctx1.moveTo(cx + ox * 0.4, cy + 90); ctx1.lineTo(cx + ox, cy - 40); ctx1.stroke();
+    // 花藥
+    ctx1.fillStyle = '#fbc02d';
+    ctx1.beginPath(); ctx1.ellipse(cx + ox, cy - 45, 11, 7, 0, 0, Math.PI * 2); ctx1.fill();
+    // 花粉光點
+    ctx1.fillStyle = '#ffea00';
+    ctx1.beginPath(); ctx1.arc(cx + ox - 4, cy - 48, 2, 0, Math.PI*2); ctx1.arc(cx + ox + 4, cy - 43, 2, 0, Math.PI*2); ctx1.fill();
+  });
+
+  // 雌蕊：子房、胚珠、花柱、柱頭
+  // 子房
+  ctx1.fillStyle = '#a5d6a7'; ctx1.strokeStyle = '#388e3c'; ctx1.lineWidth = 3;
+  ctx1.beginPath(); ctx1.ellipse(cx, cy + 70, 50, 45, 0, 0, Math.PI * 2); ctx1.fill(); ctx1.stroke();
+  // 胚珠
+  ctx1.fillStyle = '#2e7d32';
+  ctx1.beginPath(); ctx1.arc(cx - 18, cy + 70, 10, 0, Math.PI * 2); ctx1.arc(cx + 18, cy + 70, 10, 0, Math.PI * 2); ctx1.fill();
+
+  // 花柱
+  ctx1.strokeStyle = '#c8e6c9'; ctx1.lineWidth = 16;
+  ctx1.beginPath(); ctx1.moveTo(cx, cy + 30); ctx1.lineTo(cx, cy - 90); ctx1.stroke();
+
+  // 柱頭
+  ctx1.fillStyle = '#fff176'; ctx1.strokeStyle = '#fbc02d'; ctx1.lineWidth = 3;
+  ctx1.beginPath(); ctx1.ellipse(cx, cy - 95, 26, 12, 0, 0, Math.PI * 2); ctx1.fill(); ctx1.stroke();
+
+  // 標籤
+  drawLabel(ctx1, cx - 360, cy + 30, "花瓣 (白色保護並吸引昆蟲)");
+  drawLabel(ctx1, cx - 220, cy - 65, "雄蕊：花藥(產花粉) + 花絲");
+  drawLabel(ctx1, cx + 70, cy - 105, "雌蕊：柱頭(具黏液接收花粉)");
+  drawLabel(ctx1, cx + 80, cy - 25, "花柱(花粉管通道)");
+  drawLabel(ctx1, cx + 90, cy + 55, "【子房】➔ 授粉後發育為【果實】");
+  drawLabel(ctx1, cx + 90, cy + 95, "【胚珠】➔ 授粉後發育為【種子】");
+
+  // 蜜蜂
+  if (flowerMode === 'pollinate') {
+    drawBee(ctx1, beePos.x, beePos.y);
+  }
+
+  requestAnimationFrame(drawFlowerCanvas);
+}
+
+function animFlower(action) {
+  const info = document.getElementById('flowerInfo');
+  if (action === 'pollinate') {
+    flowerMode = 'pollinate';
+    beePos = { x: 150, y: 100 };
+    info.innerHTML = "<strong>🐝 蜜蜂授粉中：</strong>蜜蜂被金桔花的香氣與花蜜吸引，在雄蕊採蜜時黏上了大量花粉，隨後停留在雌蕊柱頭上，把花粉精確傳入黏性柱頭！";
+    let step = 0;
+    const inv = setInterval(() => {
+      step++;
+      if (step < 40) {
+        beePos.x += (410 - beePos.x) * 0.08;
+        beePos.y += (220 - beePos.y) * 0.08;
+      } else if (step < 90) {
+        beePos.x += (500 - beePos.x) * 0.08;
+        beePos.y += (180 - beePos.y) * 0.08;
+      } else {
+        clearInterval(inv);
+        info.innerHTML = "<strong>✅ 授粉大成功！</strong>花粉落在柱頭後，將長出花粉管進入胚珠結合，請切換至【單元二：花落結果】看果實怎麼長大！";
+      }
+    }, 30);
+  } else if (action === 'showDetails') {
+    info.innerHTML = "<strong>🔍 細部放大觀察：</strong><br>• 花藥裡面含有成千上萬粒微小的<strong>黃色花粉粒</strong>。<br>• 雌蕊柱頭表面具有黏液，能牢牢黏住花粉。<br>• 子房內部保護著綠色的<strong>胚珠</strong>，是未來發育為種子的搖籃！";
+  } else {
+    flowerMode = 'normal';
+    info.innerHTML = "<strong>💡 課本觀察重點：</strong>已重設回初始狀態，可隨時點擊按鈕重播。";
+  }
+}
+
+function drawBee(ctx, x, y) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.fillStyle = 'rgba(255,255,255,0.75)';
+  ctx.beginPath(); ctx.ellipse(-9, -20, 14, 7, -0.4, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(9, -20, 14, 7, 0.4, 0, Math.PI*2); ctx.fill();
+
+  ctx.fillStyle = '#ffb300';
+  ctx.beginPath(); ctx.ellipse(0, 0, 18, 12, 0, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#212121';
+  ctx.fillRect(-6, -11, 4, 22); ctx.fillRect(3, -11, 4, 22);
+
+  // 金色花粉顆粒
+  ctx.fillStyle = '#ffd600';
+  ctx.beginPath();
+  ctx.arc(-8, 6, 3, 0, Math.PI*2); ctx.arc(0, 8, 3, 0, Math.PI*2); ctx.arc(8, 7, 3, 0, Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawLabel(ctx, x, y, text) {
+  ctx.font = "bold 15px Microsoft JhengHei";
+  const w = ctx.measureText(text).width;
+  ctx.fillStyle = "rgba(255,255,255,0.92)";
+  ctx.fillRect(x - 6, y - 16, w + 12, 24);
+  ctx.strokeStyle = "#81c784"; ctx.lineWidth = 1.5;
+  ctx.strokeRect(x - 6, y - 16, w + 12, 24);
+  ctx.fillStyle = "#1b5e20";
+  ctx.fillText(text, x, y);
+}
+
+/* =====================================================================
+   CANVAS 2: 花落結果探究
+===================================================================== */
+const c2 = document.getElementById('canvasFruit');
+const ctx2 = c2.getContext('2d');
+let fruitStage = 0; // 0: flower, 1: growing, 2: sliced
+
+function drawFruitCanvas() {
+  ctx2.clearRect(0, 0, 1000, 480);
+  ctx2.fillStyle = '#fffde7'; ctx2.fillRect(0, 0, 1000, 480);
+  const cx = 500, cy = 250;
+
+  // 枝條
+  ctx2.strokeStyle = '#5d4037'; ctx2.lineWidth = 14;
+  ctx2.beginPath(); ctx2.moveTo(200, 100); ctx2.quadraticCurveTo(cx, cy - 80, cx, cy); ctx2.stroke();
+  // 綠葉
+  ctx2.fillStyle = '#43a047';
+  ctx2.beginPath(); ctx2.ellipse(cx - 70, cy - 50, 50, 20, -0.6, 0, Math.PI*2); ctx2.fill();
+
+  if (fruitStage === 0) {
+    // 花朵剛謝
+    ctx2.fillStyle = '#81c784'; ctx2.beginPath(); ctx2.arc(cx, cy + 30, 25, 0, Math.PI*2); ctx2.fill();
+    drawLabel(ctx2, cx + 40, cy + 30, "授粉剛完成：白色花瓣凋落，子房開始累積養分！");
+  } else if (fruitStage === 1) {
+    // 膨大中果實
+    ctx2.fillStyle = '#ffa726'; ctx2.strokeStyle = '#e65100'; ctx2.lineWidth = 4;
+    ctx2.beginPath(); ctx2.arc(cx, cy + 60, 85, 0, Math.PI*2); ctx2.fill(); ctx2.stroke();
+    drawLabel(ctx2, cx - 280, cy + 60, "【子房】日漸膨大發育為橙黃色【果實】！");
+  } else if (fruitStage === 2) {
+    // 剖開金桔
+    ctx2.fillStyle = '#ffa726'; ctx2.strokeStyle = '#e65100'; ctx2.lineWidth = 4;
+    ctx2.beginPath(); ctx2.arc(cx, cy + 60, 95, 0, Math.PI*2); ctx2.fill(); ctx2.stroke();
+
+    // 果肉瓣（子房）
+    ctx2.fillStyle = '#ffe082';
+    ctx2.beginPath(); ctx2.arc(cx, cy + 60, 84, 0, Math.PI*2); ctx2.fill();
+
+    // 種子（胚珠發育）
+    ctx2.fillStyle = '#8d6e63';
+    ctx2.beginPath();
+    ctx2.ellipse(cx - 30, cy + 45, 18, 10, 0.5, 0, Math.PI*2);
+    ctx2.ellipse(cx + 30, cy + 70, 18, 10, -0.5, 0, Math.PI*2);
+    ctx2.ellipse(cx, cy + 90, 16, 9, 0, 0, Math.PI*2);
+    ctx2.fill();
+
+    drawLabel(ctx2, cx - 360, cy + 40, "多汁果肉：由雌蕊【子房】膨大發育");
+    drawLabel(ctx2, cx + 110, cy + 70, "硬種子：由雌蕊內部【胚珠】發育而成");
+  }
+
+  requestAnimationFrame(drawFruitCanvas);
+}
+
+function animFruit(action) {
+  const info = document.getElementById('fruitInfo');
+  if (action === 'grow') {
+    fruitStage = 1;
+    info.innerHTML = "<strong>🍊 果實生長中：</strong>花瓣枯萎脫落，子房源源不絕吸收葉片製造的養分，逐漸膨大變圓，外皮由綠轉為金黃色！";
+  } else if (action === 'cut') {
+    fruitStage = 2;
+    info.innerHTML = "<strong>🔪 果實剖面大解密！</strong><br>清晰可見：<strong>【外側子房 ➔ 發育為多汁果肉】</strong>，<strong>【內側胚珠 ➔ 發育為種子】</strong>！完全掌握課本第 54-55 頁考點！";
+  } else {
+    fruitStage = 0;
+    info.innerHTML = "<strong>🔄 已重設為初始狀態。</strong>";
+  }
+}
+
+/* =====================================================================
+   CANVAS 3: 種子四大傳播大冒險
+===================================================================== */
+const c3 = document.getElementById('canvasSeed');
+const ctx3 = c3.getContext('2d');
+let dispersalType = 'wind';
+let seedAnimTimer = 0;
+let particles = [];
+
+function selectDispersal(type) {
+  dispersalType = type;
+  document.querySelectorAll('.seed-card').forEach(c => c.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+
+  const btn = document.getElementById('seedActionBtn');
+  const info = document.getElementById('seedInfo');
+
+  if (type === 'wind') {
+    btn.innerHTML = "💨 啟動風吹：蒲公英降落傘與青楓薄翅起飛！";
+    info.innerHTML = "<strong>🌬️ 風力傳播（蒲公英、木棉、青楓）：</strong><br>• 蒲公英果實具<strong>冠毛</strong>如降落傘隨風飄。<br>• 青楓果實具<strong>薄翅</strong>，旋轉如竹蜻蜓飛向遠處！";
+  } else if (type === 'animal') {
+    btn.innerHTML = "🐦 觀察動物傳播：麻雀吃果實 ＋ 咸豐草倒勾刺黏衣服！";
+    info.innerHTML = "<strong>🐦🐕 動物傳播（榕樹、大花咸豐草）：</strong><br>• <strong>榕樹果實</strong>：顏色鮮豔多汁吸引鳥類啄食，種子耐消化隨鳥糞便排出到遠處。<br>• <strong>大花咸豐草</strong>：果實具有<strong>倒鉤刺</strong>，會牢牢勾在經過的動物毛皮或人類褲管上！";
+  } else if (type === 'pop') {
+    btn.innerHTML = "💥 觸碰成熟果莢：非洲鳳仙花瞬間爆裂彈射！";
+    info.innerHTML = "<strong>💥 自身彈力傳播（非洲鳳仙花、黃花酢漿草）：</strong><br>• 成熟果莢受到輕碰或張力極限時，會<strong>突然裂開捲曲</strong>，像小砲彈一樣將種子強力彈射到數公尺外！";
+  } else if (type === 'water') {
+    btn.innerHTML = "🌊 海浪漂流：椰子與棋盤腳跨海大冒險！";
+    info.innerHTML = "<strong>🌊 水力傳播（椰子、棋盤腳）：</strong><br>• 椰子與棋盤腳生長在海邊，果實具有厚實<strong>纖維質與氣室</strong>，能浮在海水上漂流數百公里，在遠方沙灘發芽！";
+  }
+  resetParticles();
+}
+
+function resetParticles() {
+  particles = [];
+  seedAnimTimer = 0;
+}
+
+function triggerSeedAction() {
+  resetParticles();
+  if (dispersalType === 'wind') {
+    for (let i = 0; i < 40; i++) {
+      particles.push({
+        x: 300 + Math.random() * 40,
+        y: 260 + Math.random() * 60,
+        vx: 3 + Math.random() * 5,
+        vy: -1.5 + Math.random() * 1,
+        angle: Math.random() * Math.PI,
+        type: Math.random() > 0.5 ? 'dandelion' : 'maple'
+      });
+    }
+  } else if (dispersalType === 'pop') {
+    for (let i = 0; i < 35; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 5 + Math.random() * 8;
+      particles.push({
+        x: 500, y: 260,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        size: 4 + Math.random() * 3
+      });
+    }
+  } else if (dispersalType === 'water') {
+    for (let i = 0; i < 3; i++) {
+      particles.push({ x: 200 + i * 150, y: 300, vx: 2, bob: i });
+    }
+  }
+}
+
+function drawSeedCanvas() {
+  ctx3.clearRect(0, 0, 1000, 480);
+
+  if (dispersalType === 'wind') {
+    // 晴天綠地
+    ctx3.fillStyle = '#e1f5fe'; ctx3.fillRect(0, 0, 1000, 360);
+    ctx3.fillStyle = '#c8e6c9'; ctx3.fillRect(0, 360, 1000, 120);
+
+    // 蒲公英母株
+    ctx3.strokeStyle = '#388e3c'; ctx3.lineWidth = 10;
+    ctx3.beginPath(); ctx3.moveTo(300, 300); ctx3.lineTo(300, 420); ctx3.stroke();
+    ctx3.fillStyle = '#f5f5f5'; ctx3.beginPath(); ctx3.arc(300, 290, 35, 0, Math.PI*2); ctx3.fill();
+
+    drawLabel(ctx3, 140, 240, "蒲公英冠毛(左) & 青楓薄翅(右)");
+
+    // 飄動種子
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      p.y += Math.sin(p.x * 0.05) * 0.5;
+      if (p.type === 'dandelion') {
+        ctx3.strokeStyle = '#ffffff'; ctx3.lineWidth = 2;
+        ctx3.beginPath(); ctx3.moveTo(p.x, p.y); ctx3.lineTo(p.x, p.y + 12); ctx3.stroke();
+        ctx3.fillStyle = '#795548'; ctx3.beginPath(); ctx3.arc(p.x, p.y + 12, 3, 0, Math.PI*2); ctx3.fill();
+        ctx3.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx3.beginPath(); ctx3.arc(p.x, p.y, 7, 0, Math.PI*2); ctx3.fill();
+      } else {
+        // 青楓薄翅旋轉
+        ctx3.save();
+        ctx3.translate(p.x, p.y);
+        ctx3.rotate(p.x * 0.1);
+        ctx3.fillStyle = '#81c784';
+        ctx3.beginPath(); ctx3.ellipse(0, 0, 18, 6, 0, 0, Math.PI*2); ctx3.fill();
+        ctx3.fillStyle = '#558b2f'; ctx3.beginPath(); ctx3.arc(-14, 0, 4, 0, Math.PI*2); ctx3.fill();
+        ctx3.restore();
+      }
+    });
+  } else if (dispersalType === 'animal') {
+    ctx3.fillStyle = '#fff3e0'; ctx3.fillRect(0, 0, 1000, 480);
+    // 麻雀吃果實
+    drawLabel(ctx3, 180, 80, "1. 鳥類啄食紅熟榕樹果實 ➔ 種子隨糞便排出遠處");
+    ctx3.font = "70px serif"; ctx3.fillText("🐦", 250, 220);
+    ctx3.fillText("🍒", 330, 220);
+
+    // 大花咸豐草倒鉤刺黏衣服
+    drawLabel(ctx3, 580, 80, "2. 大花咸豐草倒鉤刺 ➔ 牢牢鉤在動物毛皮與褲管");
+    ctx3.fillText("🐕", 650, 240);
+    ctx3.font = "24px Microsoft JhengHei";
+    ctx3.fillStyle = "#37474f";
+    ctx3.fillText("👖 褲管黏滿黑色刺狀種子！", 600, 310);
+  } else if (dispersalType === 'pop') {
+    ctx3.fillStyle = '#fce4ec'; ctx3.fillRect(0, 0, 1000, 480);
+    drawLabel(ctx3, 330, 80, "非洲鳳仙花果莢：輕碰即「啪」一聲爆裂彈射！");
+
+    // 果莢中心
+    ctx3.fillStyle = '#66bb6a';
+    ctx3.beginPath(); ctx3.ellipse(500, 260, 30, 14, 0, 0, Math.PI*2); ctx3.fill();
+
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      p.vy += 0.2; // 重力
+      ctx3.fillStyle = '#3e2723';
+      ctx3.beginPath(); ctx3.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx3.fill();
+    });
+  } else if (dispersalType === 'water') {
+    ctx3.fillStyle = '#e0f7fa'; ctx3.fillRect(0, 0, 1000, 300);
+    ctx3.fillStyle = '#0288d1'; ctx3.fillRect(0, 300, 1000, 180);
+
+    drawLabel(ctx3, 280, 80, "椰子與棋盤腳：果實含厚實纖維與氣室，隨波逐流漂洋過海！");
+
+    // 海浪
+    ctx3.fillStyle = '#ffb74d'; // 沙灘
+    ctx3.beginPath(); ctx3.moveTo(0, 380); ctx3.lineTo(350, 480); ctx3.lineTo(0, 480); ctx3.fill();
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      if (p.x > 850) p.x = 200;
+      const waveY = p.y + Math.sin((p.x + seedAnimTimer * 5) * 0.04) * 8;
+      // 椰子
+      ctx3.fillStyle = '#6d4c41';
+      ctx3.beginPath(); ctx3.ellipse(p.x, waveY, 28, 20, 0.2, 0, Math.PI*2); ctx3.fill();
+      // 綠芽
+      ctx3.strokeStyle = '#76ff03'; ctx3.lineWidth = 4;
+      ctx3.beginPath(); ctx3.moveTo(p.x, waveY - 15); ctx3.lineTo(p.x + 10, waveY - 35); ctx3.stroke();
+    });
+    seedAnimTimer++;
+  }
+
+  requestAnimationFrame(drawSeedCanvas);
+}
+
+// 啟動繪製
+drawFlowerCanvas();
+drawFruitCanvas();
+drawSeedCanvas();
+</script>
+</body>
+</html>

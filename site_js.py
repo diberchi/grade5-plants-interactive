@@ -52,9 +52,46 @@ function playSound(type) {
       osc.start(now);
       osc.stop(now + 0.15);
     }
-  } catch (e) {
-    console.log("Audio not supported or restricted:", e);
+// 一鍵複製提示詞
+function copyPromptText(btn, textId) {
+  const el = document.getElementById(textId);
+  if (!el) return;
+  const text = el.innerText || el.textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      playSound('correct');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✅ 已複製！';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(err => {
+      fallbackCopy(text, btn);
+    });
+  } else {
+    fallbackCopy(text, btn);
   }
+}
+
+function fallbackCopy(text, btn) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    playSound('correct');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✅ 已複製！';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.innerHTML = orig;
+      btn.classList.remove('copied');
+    }, 2000);
+  } catch(e) {}
+  document.body.removeChild(ta);
 }
 
 // 碎紙花效果 (Canvas Confetti)

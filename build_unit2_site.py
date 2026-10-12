@@ -10,7 +10,7 @@ from site_css import CSS_CONTENT
 from site_content import CONTENT_HTML
 from site_js import JS_CONTENT
 
-output_dir = r"H:\其他電腦\我的電腦\暫存檔案資料夾\教學用\outputs\115-1_自然第二單元_課程計畫\千變萬化的植物互動教學網站"
+output_dir = os.path.dirname(os.path.abspath(__file__))
 target_html = os.path.join(output_dir, "index.html")
 
 full_html = f"""<!DOCTYPE html>
@@ -40,6 +40,7 @@ full_html = f"""<!DOCTYPE html>
     </div>
     <div class="header-tools">
       <button class="btn-tool" id="btn-tv-mode" onclick="toggleTvMode()">📺 大電視投影模式</button>
+      <a href="plant-learning-site.html" target="_blank" class="btn-tool" style="border-color: #fbbf24; color: #fbbf24; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">🌸 獨立授粉微課 ↗</a>
       <button class="btn-tool" onclick="openQrModal()" style="border-color: #38bdf8; color: #38bdf8;">📱 學生掃碼</button>
       <button class="btn-tool" onclick="switchTab('tab-lesson')">📋 13節教案與學習單</button>
     </div>
@@ -88,6 +89,8 @@ full_html = f"""<!DOCTYPE html>
       <button class="nav-tab" data-tab="tab-2-1" onclick="switchTab('tab-2-1')">🌊 2-1 不同環境的植物</button>
       <button class="nav-tab" data-tab="tab-2-2" onclick="switchTab('tab-2-2')">💧 2-2 植物存活的本事</button>
       <button class="nav-tab" data-tab="tab-2-3" onclick="switchTab('tab-2-3')">🌸 2-3 植物繁衍大顯身手</button>
+      <button class="nav-tab" data-tab="tab-kumquat" onclick="switchTab('tab-kumquat')">🍊 2-3 金桔授粉結果微課</button>
+      <button class="nav-tab" data-tab="tab-flow-prompt" onclick="switchTab('tab-flow-prompt')">🎬 AI 影片提示詞庫</button>
       <button class="nav-tab" data-tab="tab-2-4" onclick="switchTab('tab-2-4')">🔍 2-4 植物的特徵與分類</button>
       <button class="nav-tab" data-tab="tab-summary" onclick="switchTab('tab-summary')">📚 單元重點筆記</button>
       <button class="nav-tab" data-tab="tab-quiz" onclick="switchTab('tab-quiz')">🎯 10題隨堂搶答測驗</button>
