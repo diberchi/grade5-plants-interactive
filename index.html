@@ -2247,8 +2247,12 @@ function playSound(type) {
       gain.gain.setValueAtTime(0.15, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
       osc.start(now);
-      osc.stop(now + 0.15);
     }
+  } catch (e) {
+    // 忽略音效自動播放限制或錯誤
+  }
+}
+
 // 一鍵複製提示詞
 function copyPromptText(btn, textId) {
   const el = document.getElementById(textId);
