@@ -212,6 +212,18 @@
   <div class="feedback" id="quizFeedback"></div>
 </div>
 
+<!-- Google Flow 獨立影片提示詞 -->
+<div class="quiz-card" style="border-color: #38bdf8; background: rgba(3, 32, 48, 0.95);">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+    <div class="quiz-title" style="color: #38bdf8; margin: 0;">🎬 Google Flow (Veo) 風力傳播獨立影片提示詞（皮克斯 3D 繁中版）</div>
+    <button class="ctrl-btn" onclick="copyFlowPrompt()" id="copyPromptBtn" style="background: #0284c7; padding: 6px 14px; font-size: 14px;">📋 複製風力英文 Prompt</button>
+  </div>
+  <div id="flowPromptText" style="background: #021a24; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 14px; font-family: Consolas, monospace; font-size: 13.5px; color: #bae6fd; line-height: 1.5; white-space: pre-wrap; word-break: break-all;">Cinematic 3D Pixar animation style. Accompanied by cheerful, clear Traditional Chinese (Taiwan Mandarin, 台灣國語) voiceover narration explaining wind seed dispersal to 5th-grade elementary students. All on-screen captions, botanical labels, and title cards must strictly be displayed in Traditional Chinese (繁體中文, zh-TW).
+Close-up shot of a fluffy white dandelion clock (蒲公英) in a sunny breeze on a lush green lawn. A gentle gust of wind blows, and parachute-like achenes with delicate white pappus hairs detach gracefully, floating across the blue sky like miniature parachutes. Smooth camera transition to a Taiwanese maple tree branch: ripe winged samara fruits (青楓薄翅翅果) drop and spin rapidly like tiny helicopters, generating aerodynamic lift and gliding over a sunlit mountain forest.
+Top on-screen Traditional Chinese title card: "【風力傳播】靠風飛行大冒險". Clear annotations pointing to "冠毛（降落傘）" and "薄翅（旋轉竹蜻蜓）". Warm golden lighting, cheerful educational tone, ultra-detailed 4K resolution.</div>
+  <p style="font-size: 13.5px; color: #94a3b8; margin-top: 8px;">💡 複製後前往 <a href="https://flow.google.com" target="_blank" style="color: #38bdf8; text-decoration: underline;">Google Flow (flow.google.com)</a> 即可一鍵生成高品質 3D 動畫教學短片！</p>
+</div>
+
 <script>
 const canvas = document.getElementById('windCanvas');
 const ctx = canvas.getContext('2d');
@@ -469,6 +481,20 @@ function checkQuiz(btn, isCorrect) {
     fb.style.color = "#f87171";
   }
   fb.style.display = 'block';
+}
+
+function copyFlowPrompt() {
+  const text = document.getElementById('flowPromptText').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyPromptBtn');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✅ 已複製！';
+    btn.style.background = '#fbbf24'; btn.style.color = '#000';
+    setTimeout(() => {
+      btn.innerHTML = orig;
+      btn.style.background = '#0284c7'; btn.style.color = '#fff';
+    }, 2000);
+  });
 }
 
 initStreams();

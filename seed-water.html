@@ -209,6 +209,21 @@
   <div class="feedback" id="quizFeedback"></div>
 </div>
 
+<!-- Google Flow 獨立影片提示詞 -->
+<div class="quiz-card" style="border-color: #38bdf8; background: rgba(2, 26, 36, 0.95);">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+    <div class="quiz-title" style="color: #38bdf8; margin: 0;">🎬 Google Flow (Veo) 水力傳播獨立影片提示詞（皮克斯 3D 繁中版）</div>
+    <button class="ctrl-btn" onclick="copyFlowPrompt()" id="copyPromptBtn" style="background: #0284c7; padding: 6px 14px; font-size: 14px;">📋 複製水力英文 Prompt</button>
+  </div>
+  <div id="flowPromptText" style="background: #01131b; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 14px; font-family: Consolas, monospace; font-size: 13.5px; color: #bae6fd; line-height: 1.5; white-space: pre-wrap; word-break: break-all;">Cinematic 3D Pixar animation style. Accompanied by gentle, inspiring Traditional Chinese (Taiwan Mandarin, 台灣國語) voiceover narration explaining water seed dispersal to 5th-grade elementary students. All on-screen captions, botanical labels, and title cards must strictly be displayed in Traditional Chinese (繁體中文, zh-TW).
+Bright tropical ocean adventure:
+First, a clean 3D cross-section cut of a coconut (椰子剖面): glowing Traditional Chinese annotations highlight the smooth waterproof exocarp (防水外果皮), buoyant fibrous mesocarp packed with buoyant air pockets (疏鬆纖維氣室), and rock-hard inner endocarp protecting the seed.
+The coconut and a fibrous Barringtonia fruit (棋盤腳) drop into crystal turquoise ocean waves, effortlessly bobbing on sparkling foam under sunny blue skies, drifting across deep blue ocean currents for hundreds of kilometers.
+Gentle waves wash the buoyant fruits onto a pristine sandy tropical beach with gentle tide ripples. Inside the coconut, fresh green leaves and sturdy white roots break out, sprouting into a healthy young palm tree.
+Top on-screen Traditional Chinese title card: "【水力傳播】漂洋過海大冒險". Clear annotations pointing to "疏鬆纖維氣室（提供浮力）" and "沙灘萌發新芽". Beautiful sun-drenched coastal lighting, refreshing ocean atmosphere, 4K resolution.</div>
+  <p style="font-size: 13.5px; color: #94a3b8; margin-top: 8px;">💡 複製後前往 <a href="https://flow.google.com" target="_blank" style="color: #38bdf8; text-decoration: underline;">Google Flow (flow.google.com)</a> 即可一鍵生成高品質 3D 動畫教學短片！</p>
+</div>
+
 <script>
 const canvas = document.getElementById('waterCanvas');
 const ctx = canvas.getContext('2d');
@@ -450,6 +465,20 @@ function checkQuiz(btn, isCorrect) {
     fb.style.color = "#f87171";
   }
   fb.style.display = 'block';
+}
+
+function copyFlowPrompt() {
+  const text = document.getElementById('flowPromptText').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyPromptBtn');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✅ 已複製！';
+    btn.style.background = '#fbbf24'; btn.style.color = '#000';
+    setTimeout(() => {
+      btn.innerHTML = orig;
+      btn.style.background = '#0284c7'; btn.style.color = '#fff';
+    }, 2000);
+  });
 }
 
 loop();

@@ -205,6 +205,20 @@
   <div class="feedback" id="quizFeedback"></div>
 </div>
 
+<!-- Google Flow 獨立影片提示詞 -->
+<div class="quiz-card" style="border-color: #f97316; background: rgba(43, 11, 2, 0.95);">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+    <div class="quiz-title" style="color: #f97316; margin: 0;">🎬 Google Flow (Veo) 動物傳播獨立影片提示詞（皮克斯 3D 繁中版）</div>
+    <button class="ctrl-btn" onclick="copyFlowPrompt()" id="copyPromptBtn" style="background: #ea580c; padding: 6px 14px; font-size: 14px;">📋 複製動物英文 Prompt</button>
+  </div>
+  <div id="flowPromptText" style="background: #1c0601; border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 10px; padding: 14px; font-family: Consolas, monospace; font-size: 13.5px; color: #fed7aa; line-height: 1.5; white-space: pre-wrap; word-break: break-all;">Cinematic 3D Pixar animation style. Accompanied by lively, warm Traditional Chinese (Taiwan Mandarin, 台灣國語) voiceover narration explaining animal seed dispersal to 5th-grade elementary students. All on-screen captions, botanical labels, and title cards must strictly be displayed in Traditional Chinese (繁體中文, zh-TW).
+Dual-scene botanical exploration:
+First, macro slow-motion shot: a cute fluffy golden retriever puppy happily running through a wildflower meadow. As it brushes past Bidens pilosa (大花咸豐草), extreme macro close-up reveals tiny curved hooked spines (倒鉤刺) at the tip of slender black seeds firmly latching onto the puppy's fur and a student's denim jeans.
+Then, transition to a sunny banyan tree branch: a cheerful tree sparrow (麻雀) eagerly pecks and swallows ripe red banyan figs (榕樹果實). The bird flies to a distant open field and excretes the acid-resistant hard seeds onto rich soil, where a fresh green seedling immediately sprouts.
+Top on-screen Traditional Chinese title card: "【動物傳播】搭便車與美味旅行". Clear annotations pointing to "倒鉤刺（附著毛皮）" and "耐酸種子（排便發芽）". Warm natural sunlight, charming characters, 4K resolution.</div>
+  <p style="font-size: 13.5px; color: #cbd5e1; margin-top: 8px;">💡 複製後前往 <a href="https://flow.google.com" target="_blank" style="color: #f97316; text-decoration: underline;">Google Flow (flow.google.com)</a> 即可一鍵生成高品質 3D 動畫教學短片！</p>
+</div>
+
 <script>
 const canvas = document.getElementById('animalCanvas');
 const ctx = canvas.getContext('2d');
@@ -515,6 +529,20 @@ function checkQuiz(btn, isCorrect) {
     fb.style.color = "#f87171";
   }
   fb.style.display = 'block';
+}
+
+function copyFlowPrompt() {
+  const text = document.getElementById('flowPromptText').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyPromptBtn');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✅ 已複製！';
+    btn.style.background = '#fbbf24'; btn.style.color = '#000';
+    setTimeout(() => {
+      btn.innerHTML = orig;
+      btn.style.background = '#ea580c'; btn.style.color = '#fff';
+    }, 2000);
+  });
 }
 
 resetSim();
