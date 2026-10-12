@@ -569,6 +569,101 @@ CONTENT_HTML = """
     </div>
   </div>
 
+  <!-- 分頁: 種子四大傳播獨立實驗室 -->
+  <div id="tab-seeds-detail" class="tab-pane">
+    <div class="textbook-section">
+      <div class="tb-header">
+        <h2 class="tb-title">🚀 種子四大傳播獨立實驗室（課本 p.56～57）</h2>
+        <span class="tb-badge">四大途徑獨立深度模擬</span>
+      </div>
+
+      <div class="info-card" style="margin-bottom: 20px; border: 1.5px solid var(--border-glow);">
+        <p style="font-size: 1.05rem; line-height: 1.7;">
+          依據國小自然 108 課綱與翰林版課本，植物果實成熟後為了避免與母株競爭陽光與土壤養分，發展出<strong>四大完全不同機制</strong>的傳播策略。下方為<strong>4大獨立實驗室</strong>，各具專屬物理模擬、構造解剖與即時小考：
+        </p>
+      </div>
+
+      <!-- 四大獨立實驗室卡片導航格 -->
+      <div class="grid-2">
+        <!-- 實驗室 1: 風力傳播 -->
+        <div class="info-card" style="border: 2px solid #38bdf8; background: rgba(8, 47, 73, 0.75);">
+          <div class="info-card-header">
+            <div class="info-card-icon">🌬️</div>
+            <div class="info-card-title" style="color: #38bdf8;">1. 風力傳播獨立實驗室</div>
+            <span class="tb-badge" style="background:#0284c7;">課本 p.56</span>
+          </div>
+          <p>• <strong>代表植物</strong>：蒲公英（冠毛降落傘）、青楓（旋轉薄翅竹蜻蜓）、木棉（輕巧棉絮）。</p>
+          <p>• <strong>核心機制</strong>：構造微小輕巧、極致擴大迎風表面積，隨氣流遠飄數公里。</p>
+          <p>• <strong>實驗功能</strong>：可切換微風/和風/強風，觀察不同風阻下的滑翔與自旋軌跡。</p>
+          <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="seed-wind.html" target="_blank" class="link-pill-btn" style="border-color:#38bdf8; color:#38bdf8;">🖥️ 開啟風力傳播獨立實驗室 ↗</a>
+          </div>
+        </div>
+
+        <!-- 實驗室 2: 動物傳播 -->
+        <div class="info-card" style="border: 2px solid #f97316; background: rgba(67, 20, 7, 0.75);">
+          <div class="info-card-header">
+            <div class="info-card-icon">🐦🐕</div>
+            <div class="info-card-title" style="color: #f97316;">2. 動物傳播獨立實驗室</div>
+            <span class="tb-badge" style="background:#ea580c;">課本 p.56~57</span>
+          </div>
+          <p>• <strong>代表植物</strong>：大花咸豐草（倒鉤刺附著）、榕樹/番茄（美味果肉吸引鳥吃排便）。</p>
+          <p>• <strong>核心機制</strong>：【附著式】倒鉤刺卡毛皮；【食用式】耐胃酸硬種子糞便排播發芽。</p>
+          <p>• <strong>實驗功能</strong>：模擬狗狗穿過草叢黏附倒鉤刺、麻雀啄食並飛至遠方排便長幼苗。</p>
+          <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="seed-animal.html" target="_blank" class="link-pill-btn" style="border-color:#f97316; color:#f97316;">🖥️ 開啟動物傳播獨立實驗室 ↗</a>
+          </div>
+        </div>
+
+        <!-- 實驗室 3: 自身彈力 -->
+        <div class="info-card" style="border: 2px solid #f43f5e; background: rgba(80, 7, 36, 0.75);">
+          <div class="info-card-header">
+            <div class="info-card-icon">💥</div>
+            <div class="info-card-title" style="color: #f43f5e;">3. 自身彈力傳播獨立實驗室</div>
+            <span class="tb-badge" style="background:#db2777;">課本 p.57</span>
+          </div>
+          <p>• <strong>代表植物</strong>：非洲鳳仙花（觸摸瞬間爆裂）、黃花酢漿草（果莢乾燥彈出）。</p>
+          <p>• <strong>核心機制</strong>：果皮各層成熟張力極大，外力輕觸瞬間螺旋捲縮釋放位能，彈射種子。</p>
+          <p>• <strong>實驗功能</strong>：包含 1x 與 0.25x 慢動作爆裂攝影、彈射距離標尺（0~5 公尺）測距。</p>
+          <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="seed-ballistic.html" target="_blank" class="link-pill-btn" style="border-color:#f43f5e; color:#f43f5e;">🖥️ 開啟自身彈力獨立實驗室 ↗</a>
+          </div>
+        </div>
+
+        <!-- 實驗室 4: 水力傳播 -->
+        <div class="info-card" style="border: 2px solid #38bdf8; background: rgba(8, 47, 73, 0.75);">
+          <div class="info-card-header">
+            <div class="info-card-icon">🌊</div>
+            <div class="info-card-title" style="color: #38bdf8;">4. 水力傳播獨立實驗室</div>
+            <span class="tb-badge" style="background:#0891b2;">課本 p.57</span>
+          </div>
+          <p>• <strong>代表植物</strong>：椰子（海漂之王）、棋盤腳（墾丁國寶樹）、蓮蓬（海綿狀氣室）。</p>
+          <p>• <strong>核心機制</strong>：防水外果皮 ＋ 疏鬆粗纖維層與充足氣室，比重比水輕，海漂數百公里發芽。</p>
+          <p>• <strong>實驗功能</strong>：切開果實縱剖面探索浮力氣室原理、洋流漂洋過海並沖上沙灘萌芽。</p>
+          <div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="seed-water.html" target="_blank" class="link-pill-btn" style="border-color:#38bdf8; color:#38bdf8;">🖥️ 開啟水力傳播獨立實驗室 ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 快速嵌入預覽區（預設顯示風力實驗室，可一鍵切換） -->
+      <div style="margin-top: 24px; background: rgba(11, 36, 28, 0.9); border-radius: 16px; padding: 20px; border: 1px solid var(--border-color);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+          <h3 style="color: var(--primary-light); font-size: 1.15rem; margin: 0;">🖥️ 站內直接操作獨立實驗室：</h3>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn-ctrl active" id="btn-tab-seed-wind" onclick="switchEmbeddedSeed('seed-wind.html', this)">🌬️ 風力</button>
+            <button class="btn-ctrl" id="btn-tab-seed-animal" onclick="switchEmbeddedSeed('seed-animal.html', this)">🐦 動物</button>
+            <button class="btn-ctrl" id="btn-tab-seed-ballistic" onclick="switchEmbeddedSeed('seed-ballistic.html', this)">💥 彈力</button>
+            <button class="btn-ctrl" id="btn-tab-seed-water" onclick="switchEmbeddedSeed('seed-water.html', this)">🌊 水力</button>
+          </div>
+        </div>
+        <div style="width: 100%; border-radius: 12px; overflow: hidden; border: 2px solid var(--border-color); box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+          <iframe id="seedEmbeddedIframe" src="seed-wind.html" style="width: 100%; height: 860px; border: none; display: block;" title="種子傳播獨立實驗室"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 分頁: Google Flow AI 影片提示詞庫與 NotebookLM 系統 -->
   <div id="tab-flow-prompt" class="tab-pane">
     <div class="textbook-section">

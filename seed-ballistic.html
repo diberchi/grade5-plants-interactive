@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💥 種子自身彈力傳播互動實驗室 - 國小五上自然</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #db2777;
+    --primary-light: #fbcfe8;
+    --bg-dark: #500724;
+    --bg-card: rgba(80, 7, 36, 0.88);
+    --text-light: #fdf2f8;
+    --accent: #f43f5e;
+    --accent-gold: #fbbf24;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Noto Sans TC", sans-serif; }
+  body {
+    background: linear-gradient(180deg, #831843 0%, #9d174d 40%, #be185d 100%);
+    color: var(--text-light);
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .header-card {
+    background: var(--bg-card);
+    border: 2px solid var(--accent);
+    border-radius: 18px;
+    padding: 20px 30px;
+    max-width: 1000px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+  }
+  .header-card h1 { font-size: 28px; color: #fce7f3; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .badge { background: #be185d; color: white; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; }
+  .nav-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+  .nav-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--accent); color: #500724; transform: translateY(-2px); }
+  .nav-btn.active { background: #f43f5e; color: #500724; font-weight: 800; border-color: #f43f5e; }
+
+  .stage-box {
+    width: 100%;
+    max-width: 1000px;
+    background: #2b0213;
+    border-radius: 20px;
+    border: 3px solid var(--accent);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: relative;
+  }
+  canvas { width: 100%; height: 500px; display: block; }
+
+  .controls-bar {
+    max-width: 1000px;
+    width: 100%;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 16px 24px;
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    border: 1px solid rgba(244, 63, 94, 0.4);
+  }
+  .btn-group { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .ctrl-btn {
+    background: #be185d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { background: #f43f5e; color: #500724; transform: translateY(-2px); }
+  .ctrl-btn.active { background: #f43f5e; color: #500724; border: 2px solid white; }
+  .ctrl-btn.gold { background: #d97706; }
+  .ctrl-btn.gold:hover { background: #fbbf24; color: #000; }
+
+  .info-grid {
+    max-width: 1000px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 20px;
+  }
+  @media(max-width: 768px) { .info-grid { grid-template-columns: 1fr; } }
+  .info-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+  .info-card h3 { color: var(--accent); margin-bottom: 10px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+  .info-card p { font-size: 15px; line-height: 1.7; color: #fce7f3; }
+
+  .quiz-card {
+    max-width: 1000px;
+    width: 100%;
+    background: rgba(80, 7, 36, 0.95);
+    border: 2px solid var(--accent-gold);
+    border-radius: 16px;
+    padding: 22px;
+    margin-top: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .quiz-title { font-size: 18px; font-weight: 800; color: #fbbf24; margin-bottom: 12px; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-opt {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 12px 18px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+    text-align: left;
+  }
+  .quiz-opt:hover { background: rgba(244, 63, 94, 0.2); border-color: #f43f5e; }
+  .quiz-opt.correct { background: #059669 !important; border-color: #34d399 !important; font-weight: bold; }
+  .quiz-opt.wrong { background: #dc2626 !important; border-color: #f87171 !important; }
+  .feedback { margin-top: 10px; font-size: 15px; font-weight: bold; display: none; }
+</style>
+</head>
+<body>
+
+<div class="header-card">
+  <h1>💥 種子四大傳播特攻隊：【自身彈力傳播實驗室】</h1>
+  <p>國小自然五上第二單元 • 翰林版課本 第 57 頁專題深度探索</p>
+  <div class="nav-bar">
+    <a href="seed-wind.html" class="nav-btn">🌬️ 風力傳播</a>
+    <a href="seed-animal.html" class="nav-btn">🐦🐕 動物傳播</a>
+    <a href="seed-ballistic.html" class="nav-btn active">💥 自身彈力傳播</a>
+    <a href="seed-water.html" class="nav-btn">🌊 水力傳播</a>
+    <a href="index.html" class="nav-btn">🏠 返回第二單元首頁</a>
+  </div>
+</div>
+
+<div class="stage-box">
+  <canvas id="ballisticCanvas" width="1000" height="500"></canvas>
+</div>
+
+<div class="controls-bar">
+  <div class="btn-group">
+    <span style="font-weight: bold; color: var(--accent);">🌿 選擇植物：</span>
+    <button class="ctrl-btn active" id="btn-touchmenot" onclick="setPlant('impatiens')">🌺 非洲鳳仙花（觸摸爆裂）</button>
+    <button class="ctrl-btn" id="btn-oxalis" onclick="setPlant('oxalis')">☘️ 黃花酢漿草（果莢彈射）</button>
+  </div>
+  <div class="btn-group">
+    <span style="font-weight: bold; color: var(--accent);">⏱️ 播放速度：</span>
+    <button class="ctrl-btn active" id="btn-speed-normal" onclick="setSpeed(1)">▶️ 正常速度 1x</button>
+    <button class="ctrl-btn" id="btn-speed-slow" onclick="setSpeed(0.25)">🐌 超慢動作 0.25x</button>
+    <button class="ctrl-btn gold" onclick="triggerBurst()">👆 輕碰果莢！觸發爆裂！</button>
+    <button class="ctrl-btn" onclick="resetPod()">🔄 重生完整果莢</button>
+  </div>
+</div>
+
+<div class="info-grid">
+  <div class="info-card">
+    <h3>🔍 課本植物特徵剖析</h3>
+    <p>• <strong>非洲鳳仙花</strong>：果實紡錘形，成熟時果皮各層組織張力不均勻，累積巨大彈性位能。只要受到外力輕碰或自然乾燥，果皮瞬間縱向裂開並螺旋捲縮，將種子強力彈射出去！</p>
+    <p>• <strong>黃花酢漿草</strong>：長條形果莢成熟時，種皮外層膨脹擠壓，稍微觸動就會「啪」一聲爆開，種子向四周彈飛數十公分至一公尺遠。</p>
+  </div>
+
+  <div class="info-card">
+    <h3>💡 探究核心與自力彈射科學</h3>
+    <p>• <strong>完全不需要風或動物！</strong>：彈力傳播屬於植物的「自力繁衍」，依靠果實內部細胞膨壓與組織乾燥產生的強力<strong>彈性位能釋放</strong>。</p>
+    <p>• <strong>瞬間彈射時速高達 30 km/h</strong>：種子像小砲彈發射，能迅速散佈到母株數公尺之外，避免過度擁擠！</p>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="quiz-title">🎯 自身彈力傳播隨堂隨考（小學霸挑戰）</div>
+  <p style="margin-bottom: 12px; font-size: 16px;"><strong>問題：</strong>在校園花圃輕輕碰觸「非洲鳳仙花」成熟飽滿的果莢，果莢會突然爆裂彈開，這種現象的科學原理是什麼？</p>
+  <div class="quiz-opts">
+    <button class="quiz-opt" onclick="checkQuiz(this, false)">A. 受到手指體溫加熱，內部水分沸騰蒸發</button>
+    <button class="quiz-opt" onclick="checkQuiz(this, true)">B. 果皮成熟時組織張力極大，受碰觸瞬間捲縮彈射種子</button>
+    <button class="quiz-opt" onclick="checkQuiz(this, false)">C. 蜜蜂在果實內部鑽動引起的推力</button>
+    <button class="quiz-opt" onclick="checkQuiz(this, false)">D. 果實表面的倒鉤刺拉扯導致斷裂</button>
+  </div>
+  <div class="feedback" id="quizFeedback"></div>
+</div>
+
+<script>
+const canvas = document.getElementById('ballisticCanvas');
+const ctx = canvas.getContext('2d');
+
+let plantType = 'impatiens';
+let speedMult = 1;
+let isBurst = false;
+let podCoil = 0; // 0 to 1
+let seeds = [];
+let audioCtx = null;
+
+function playBurstSound() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(320, now);
+    osc.frequency.exponentialRampToValueAtTime(80, now + 0.12);
+    gain.gain.setValueAtTime(0.4, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    osc.start(now);
+    osc.stop(now + 0.12);
+  } catch(e) {}
+}
+
+function setPlant(p) {
+  plantType = p;
+  document.getElementById('btn-touchmenot').classList.toggle('active', p === 'impatiens');
+  document.getElementById('btn-oxalis').classList.toggle('active', p === 'oxalis');
+  resetPod();
+}
+
+function setSpeed(s) {
+  speedMult = s;
+  document.getElementById('btn-speed-normal').classList.toggle('active', s === 1);
+  document.getElementById('btn-speed-slow').classList.toggle('active', s < 1);
+}
+
+function resetPod() {
+  isBurst = false;
+  podCoil = 0;
+  seeds = [];
+}
+
+function triggerBurst() {
+  if (isBurst) return;
+  isBurst = true;
+  playBurstSound();
+
+  // 產生 18 顆彈射種子
+  seeds = [];
+  const originX = 260, originY = 280;
+  for (let i = 0; i < 22; i++) {
+    const angle = (Math.random() - 0.5) * 1.6 - 0.2; // 向右上方噴射
+    const speed = (Math.random() * 9 + 6);
+    seeds.push({
+      x: originX,
+      y: originY,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 3,
+      size: Math.random() * 2 + 3.5,
+      color: '#451a03'
+    });
+  }
+}
+
+function drawRuler() {
+  // 底部距離標尺 (0m ~ 5m)
+  ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(260, 460); ctx.lineTo(960, 460); ctx.stroke();
+
+  for (let m = 0; m <= 5; m++) {
+    const rx = 260 + m * 140;
+    ctx.beginPath(); ctx.moveTo(rx, 450); ctx.lineTo(rx, 460); ctx.stroke();
+    ctx.fillStyle = '#fce7f3'; ctx.font = 'bold 12px Noto Sans TC';
+    ctx.fillText(`${m} 公尺`, rx - 14, 478);
+  }
+}
+
+function drawBackground() {
+  // 背景漸層
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  bgGrad.addColorStop(0, '#500724');
+  bgGrad.addColorStop(0.7, '#831843');
+  bgGrad.addColorStop(1, '#1e293b');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  drawRuler();
+
+  // 左側枝葉植株
+  ctx.strokeStyle = '#15803d'; ctx.lineWidth = 8;
+  ctx.beginPath(); ctx.moveTo(80, 500); ctx.quadraticCurveTo(140, 360, 240, 290); ctx.stroke();
+
+  // 葉片
+  ctx.fillStyle = '#16a34a';
+  ctx.beginPath(); ctx.ellipse(160, 340, 40, 16, -0.6, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(190, 260, 35, 14, 0.4, 0, Math.PI*2); ctx.fill();
+
+  // 非洲鳳仙花的花朵展示（桃紅色）
+  if (plantType === 'impatiens') {
+    ctx.fillStyle = '#f43f5e';
+    ctx.beginPath(); ctx.arc(170, 210, 16, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(150, 210, 15, 10, -0.3, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(190, 210, 15, 10, 0.3, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fde047'; ctx.beginPath(); ctx.arc(170, 210, 5, 0, Math.PI*2); ctx.fill();
+  }
+}
+
+function drawPod() {
+  const px = 260, py = 280;
+
+  if (!isBurst) {
+    // 完整飽滿果莢（綠色紡錘形）
+    ctx.save();
+    ctx.translate(px, py);
+    ctx.rotate(0.3);
+
+    ctx.fillStyle = '#65a30d';
+    ctx.strokeStyle = '#365314';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 45, 16, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.stroke();
+
+    // 果莢縱向開裂紋線
+    ctx.strokeStyle = 'rgba(77, 124, 15, 0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(-40, 0); ctx.lineTo(40, 0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-35, -7); ctx.lineTo(35, -7); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-35, 7); ctx.lineTo(35, 7); ctx.stroke();
+
+    // 提點標籤
+    ctx.fillStyle = '#fbbf24';
+    ctx.font = 'bold 15px Noto Sans TC';
+    ctx.fillText("👆 輕觸果莢！", -40, -30);
+
+    ctx.restore();
+  } else {
+    // 爆裂捲曲果皮（螺旋狀彈開）
+    if (podCoil < 1) podCoil += 0.08 * speedMult;
+
+    ctx.save();
+    ctx.translate(px, py);
+    ctx.strokeStyle = '#65a30d';
+    ctx.lineWidth = 5;
+
+    // 5 片向外捲縮的花瓣狀果皮條
+    for (let i = 0; i < 5; i++) {
+      const a = (i / 5) * Math.PI * 2;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      const curlR = 25 * podCoil;
+      ctx.quadraticCurveTo(
+        Math.cos(a) * 35, Math.sin(a) * 35,
+        Math.cos(a + podCoil * 2) * curlR, Math.sin(a + podCoil * 2) * curlR
+      );
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = '#f43f5e';
+    ctx.font = 'bold 20px Noto Sans TC';
+    ctx.fillText("💥 啪！瞬間爆裂！", -60, -45);
+    ctx.restore();
+  }
+}
+
+function updateSeeds() {
+  seeds.forEach(s => {
+    s.x += s.vx * speedMult;
+    s.y += s.vy * speedMult;
+    s.vy += 0.28 * speedMult; // 重力
+
+    // 落地停止
+    if (s.y >= 455) {
+      s.y = 455;
+      s.vx *= 0.5;
+      if (Math.abs(s.vx) < 0.1) s.vx = 0;
+    }
+
+    // 繪製種子
+    ctx.fillStyle = s.color;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+    ctx.fill();
+  });
+}
+
+function loop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBackground();
+  drawPod();
+  if (isBurst) updateSeeds();
+
+  // 速度指示標籤
+  ctx.fillStyle = 'rgba(80, 7, 36, 0.85)';
+  ctx.fillRect(720, 20, 260, 75);
+  ctx.strokeStyle = '#f43f5e'; ctx.lineWidth = 1.5; ctx.strokeRect(720, 20, 260, 75);
+  ctx.fillStyle = '#fce7f3'; ctx.font = 'bold 15px Noto Sans TC';
+  ctx.fillText(`⏱️ 速度模式：${speedMult === 1 ? '正常播放 1x' : '超慢動作 0.25x'}`, 735, 46);
+  ctx.fillStyle = '#fde047';
+  ctx.fillText(`💥 狀態：${isBurst ? '已爆裂彈射！' : '果莢緊繃蓄力中'}`, 735, 74);
+
+  requestAnimationFrame(loop);
+}
+
+function checkQuiz(btn, isCorrect) {
+  const fb = document.getElementById('quizFeedback');
+  document.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    b.classList.remove('correct', 'wrong');
+  });
+  if (isCorrect) {
+    btn.classList.add('correct');
+    fb.innerHTML = "🎉 太棒了！答對了！非洲鳳仙花果實成熟時乾燥緊繃，果皮內外層組織張力巨大，只要輕輕一碰就會瞬間捲縮爆開，彈射種子！";
+    fb.style.color = "#34d399";
+  } else {
+    btn.classList.add('wrong');
+    fb.innerHTML = "❌ 答錯囉！爆裂原因並不是溫度加熱或昆蟲推力，而是果皮內部組織成熟時積蓄的「強大彈性張力」瞬間釋放！";
+    fb.style.color = "#f87171";
+  }
+  fb.style.display = 'block';
+}
+
+loop();
+</script>
+
+</body>
+</html>

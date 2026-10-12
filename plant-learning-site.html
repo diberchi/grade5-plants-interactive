@@ -243,7 +243,11 @@
 <nav>
   <button class="nav-btn active" onclick="switchTab('tab-flower')">🌸 單元一：花朵構造與授粉</button>
   <button class="nav-btn" onclick="switchTab('tab-fruit')">🍊 單元二：花落結果探究</button>
-  <button class="nav-btn" onclick="switchTab('tab-seeds')">🚀 單元三：種子四大傳播方式</button>
+  <button class="nav-btn" onclick="switchTab('tab-seeds')">🚀 單元三：種子四大傳播總覽</button>
+  <a href="seed-wind.html" target="_blank" class="nav-btn" style="text-decoration:none;">🌬️ 風力獨立</a>
+  <a href="seed-animal.html" target="_blank" class="nav-btn" style="text-decoration:none;">🐦 動物獨立</a>
+  <a href="seed-ballistic.html" target="_blank" class="nav-btn" style="text-decoration:none;">💥 彈力獨立</a>
+  <a href="seed-water.html" target="_blank" class="nav-btn" style="text-decoration:none;">🌊 水力獨立</a>
   <button class="nav-btn" onclick="switchTab('tab-flow')">🎬 單元四：Google Flow 影片提示詞</button>
   <button class="nav-btn" onclick="switchTab('tab-quiz')">🎯 單元五：小學霸闖關測驗</button>
 </nav>
@@ -313,6 +317,18 @@
         <span class="highlight-badge">課本第 56-57 頁</span>
       </h2>
       <p style="font-size:16px;">果實成熟後，種子需要旅行到遠方生長，才不會跟母株爭奪陽光與養分。請點選下方卡片切換傳播模式：</p>
+
+      <div style="background: rgba(254, 243, 199, 0.7); border: 2px solid #f59e0b; border-radius: 14px; padding: 14px 18px; margin: 16px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div style="font-weight: bold; color: #92400e; font-size: 15px;">
+          🚀 四大傳播獨立深度實驗室（包含獨立動畫、慢動作、風速調節、解剖剖面與專屬測驗）：
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <a href="seed-wind.html" target="_blank" style="background:#0284c7; color:white; padding:7px 14px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:14px;">🌬️ 風力實驗室 ↗</a>
+          <a href="seed-animal.html" target="_blank" style="background:#ea580c; color:white; padding:7px 14px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:14px;">🐦🐕 動物實驗室 ↗</a>
+          <a href="seed-ballistic.html" target="_blank" style="background:#db2777; color:white; padding:7px 14px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:14px;">💥 彈力實驗室 ↗</a>
+          <a href="seed-water.html" target="_blank" style="background:#0891b2; color:white; padding:7px 14px; border-radius:10px; text-decoration:none; font-weight:bold; font-size:14px;">🌊 水力實驗室 ↗</a>
+        </div>
+      </div>
 
       <div class="grid-4">
         <div class="seed-card selected" onclick="selectDispersal('wind')">

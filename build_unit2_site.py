@@ -90,6 +90,7 @@ full_html = f"""<!DOCTYPE html>
       <button class="nav-tab" data-tab="tab-2-2" onclick="switchTab('tab-2-2')">💧 2-2 植物存活的本事</button>
       <button class="nav-tab" data-tab="tab-2-3" onclick="switchTab('tab-2-3')">🌸 2-3 植物繁衍大顯身手</button>
       <button class="nav-tab" data-tab="tab-kumquat" onclick="switchTab('tab-kumquat')">🍊 2-3 金桔授粉結果微課</button>
+      <button class="nav-tab" data-tab="tab-seeds-detail" onclick="switchTab('tab-seeds-detail')">🚀 種子四大傳播獨立實驗室</button>
       <button class="nav-tab" data-tab="tab-flow-prompt" onclick="switchTab('tab-flow-prompt')">🎬 AI 影片提示詞庫</button>
       <button class="nav-tab" data-tab="tab-2-4" onclick="switchTab('tab-2-4')">🔍 2-4 植物的特徵與分類</button>
       <button class="nav-tab" data-tab="tab-summary" onclick="switchTab('tab-summary')">📚 單元重點筆記</button>

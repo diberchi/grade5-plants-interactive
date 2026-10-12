@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌬️ 種子風力傳播互動實驗室 - 國小五上自然</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0284c7;
+    --primary-dark: #0369a1;
+    --primary-light: #bae6fd;
+    --bg-dark: #082f49;
+    --bg-card: rgba(12, 74, 110, 0.85);
+    --text-light: #f0f9ff;
+    --accent: #38bdf8;
+    --accent-gold: #fbbf24;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Noto Sans TC", sans-serif; }
+  body {
+    background: linear-gradient(180deg, #0c4a6e 0%, #075985 40%, #0284c7 100%);
+    color: var(--text-light);
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .header-card {
+    background: var(--bg-card);
+    border: 2px solid var(--accent);
+    border-radius: 18px;
+    padding: 20px 30px;
+    max-width: 1000px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+  }
+  .header-card h1 { font-size: 28px; color: #e0f2fe; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .badge { background: #0284c7; color: white; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; border: 1px solid var(--accent); }
+  .nav-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+  .nav-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--accent); color: #082f49; transform: translateY(-2px); }
+  .nav-btn.active { background: #38bdf8; color: #082f49; font-weight: 800; border-color: #38bdf8; }
+
+  .stage-box {
+    width: 100%;
+    max-width: 1000px;
+    background: #032030;
+    border-radius: 20px;
+    border: 3px solid var(--accent);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: relative;
+  }
+  canvas { width: 100%; height: 500px; display: block; }
+
+  .controls-bar {
+    max-width: 1000px;
+    width: 100%;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 16px 24px;
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+  }
+  .btn-group { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .ctrl-btn {
+    background: #0284c7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { background: #38bdf8; color: #082f49; transform: translateY(-2px); }
+  .ctrl-btn.active { background: #38bdf8; color: #082f49; border: 2px solid white; }
+  .ctrl-btn.gold { background: #d97706; }
+  .ctrl-btn.gold:hover { background: #fbbf24; color: #000; }
+
+  .info-grid {
+    max-width: 1000px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 20px;
+  }
+  @media(max-width: 768px) { .info-grid { grid-template-columns: 1fr; } }
+  .info-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+  .info-card h3 { color: var(--accent); margin-bottom: 10px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+  .info-card p { font-size: 15px; line-height: 1.7; color: #e0f2fe; }
+
+  .quiz-card {
+    max-width: 1000px;
+    width: 100%;
+    background: rgba(8, 47, 73, 0.95);
+    border: 2px solid var(--accent-gold);
+    border-radius: 16px;
+    padding: 22px;
+    margin-top: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .quiz-title { font-size: 18px; font-weight: 800; color: #fbbf24; margin-bottom: 12px; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-opt {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 12px 18px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+    text-align: left;
+  }
+  .quiz-opt:hover { background: rgba(56, 189, 248, 0.2); border-color: #38bdf8; }
+  .quiz-opt.correct { background: #059669 !important; border-color: #34d399 !important; font-weight: bold; }
+  .quiz-opt.wrong { background: #dc2626 !important; border-color: #f87171 !important; }
+  .feedback { margin-top: 10px; font-size: 15px; font-weight: bold; display: none; }
+</style>
+</head>
+<body>
+
+<div class="header-card">
+  <h1>🌬️ 種子四大傳播特攻隊：【風力傳播實驗室】</h1>
+  <p>國小自然五上第二單元 • 翰林版課本 第 56 頁專題深度探索</p>
+  <div class="nav-bar">
+    <a href="seed-wind.html" class="nav-btn active">🌬️ 風力傳播</a>
+    <a href="seed-animal.html" class="nav-btn">🐦🐕 動物傳播</a>
+    <a href="seed-ballistic.html" class="nav-btn">💥 自身彈力傳播</a>
+    <a href="seed-water.html" class="nav-btn">🌊 水力傳播</a>
+    <a href="index.html" class="nav-btn">🏠 返回第二單元首頁</a>
+  </div>
+</div>
+
+<div class="stage-box">
+  <canvas id="windCanvas" width="1000" height="500"></canvas>
+</div>
+
+<div class="controls-bar">
+  <div class="btn-group">
+    <span style="font-weight: bold; color: var(--accent);">🌱 選擇植物：</span>
+    <button class="ctrl-btn active" id="btn-dandelion" onclick="setPlant('dandelion')">🌼 蒲公英（冠毛降落傘）</button>
+    <button class="ctrl-btn" id="btn-maple" onclick="setPlant('maple')">🍁 青楓（旋轉薄翅竹蜻蜓）</button>
+    <button class="ctrl-btn" id="btn-kapok" onclick="setPlant('kapok')">☁️ 木棉（輕巧白棉絮）</button>
+  </div>
+  <div class="btn-group">
+    <span style="font-weight: bold; color: var(--accent);">💨 風力強度：</span>
+    <button class="ctrl-btn" onclick="setWind(1)">🍃 微風</button>
+    <button class="ctrl-btn active" onclick="setWind(3)">🌬️ 和風</button>
+    <button class="ctrl-btn gold" onclick="setWind(6)">🌪️ 強風</button>
+    <button class="ctrl-btn" onclick="triggerWindBlast()">🚀 狂風吹起！</button>
+    <button class="ctrl-btn" onclick="resetParticles()">🔄 重生種子</button>
+  </div>
+</div>
+
+<div class="info-grid">
+  <div class="info-card">
+    <h3>🔍 課本植物特徵剖析</h3>
+    <p>• <strong>蒲公英（冠毛降落傘）</strong>：每個果實上方帶有細長柄與放射狀白色<strong>冠毛</strong>，大幅增加空氣阻力，隨微風即可飄浮數公里。</p>
+    <p>• <strong>青楓（薄翅竹蜻蜓）</strong>：果皮延伸形成不對稱的<strong>薄翅</strong>。下落時產生空氣旋轉升力，像直升機螺旋槳一樣緩慢自旋滑翔。</p>
+    <p>• <strong>木棉 / 臺灣欒樹</strong>：種子包覆在輕柔的<strong>棉絮</strong>或紙質膜狀果皮中，隨風四處飄揚散播。</p>
+  </div>
+
+  <div class="info-card">
+    <h3>💡 探究核心與適應原理</h3>
+    <p>• <strong>輕巧 ＋ 擴大表面積</strong>：風力傳播的種子都非常微小輕盈，且發展出毛狀、翅狀或絮狀附屬構造。</p>
+    <p>• <strong>避免母株競爭</strong>：隨風擴散到遠方開闊地，避免與母株爭奪陽光、土壤養分與水分，提高存活繁衍機會。</p>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="quiz-title">🎯 風力傳播隨堂隨考（小學霸挑戰）</div>
+  <p style="margin-bottom: 12px; font-size: 16px;"><strong>問題：</strong>在公園看到青楓的果實從高處落下時，它會像「竹蜻蜓」一樣旋轉飄落，主要是因為果實具有什麼特殊構造？</p>
+  <div class="quiz-opts">
+    <button class="quiz-opt" onclick="checkQuiz(this, false)">A. 膨大的白色果肉</button>
+    <button class="quiz-opt" onclick="checkQuiz(this, false)">B. 頂端的倒鉤刺</button>
+    <button class="quiz-opt" onclick="checkQuiz(this, true)">C. 兩側扁平的薄翅</button>
+    <button class="quiz-opt" onclick="checkQuiz(this, false)">D. 充滿氣室的防水外皮</button>
+  </div>
+  <div class="feedback" id="quizFeedback"></div>
+</div>
+
+<script>
+const canvas = document.getElementById('windCanvas');
+const ctx = canvas.getContext('2d');
+
+let currentPlant = 'dandelion';
+let windSpeed = 3;
+let particles = [];
+let windStreams = [];
+
+function initStreams() {
+  windStreams = [];
+  for (let i = 0; i < 15; i++) {
+    windStreams.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * (canvas.height - 80),
+      len: Math.random() * 80 + 40,
+      speed: Math.random() * 2 + 3
+    });
+  }
+}
+
+function initParticles() {
+  particles = [];
+  const count = currentPlant === 'dandelion' ? 24 : (currentPlant === 'maple' ? 14 : 30);
+  for (let i = 0; i < count; i++) {
+    particles.push(createParticle(true));
+  }
+}
+
+function createParticle(randomX = false) {
+  return {
+    x: randomX ? Math.random() * 400 + 50 : Math.random() * 120 + 30,
+    y: Math.random() * 250 + 80,
+    vx: (Math.random() * 0.8 + 0.4) * windSpeed,
+    vy: Math.random() * 0.4 - 0.2,
+    angle: Math.random() * Math.PI * 2,
+    vAngle: (Math.random() - 0.5) * 0.1,
+    size: Math.random() * 4 + 8,
+    type: currentPlant
+  };
+}
+
+function setPlant(p) {
+  currentPlant = p;
+  document.getElementById('btn-dandelion').classList.toggle('active', p === 'dandelion');
+  document.getElementById('btn-maple').classList.toggle('active', p === 'maple');
+  document.getElementById('btn-kapok').classList.toggle('active', p === 'kapok');
+  initParticles();
+}
+
+function setWind(w) {
+  windSpeed = w;
+  particles.forEach(p => p.vx = (Math.random() * 0.8 + 0.5) * windSpeed);
+}
+
+function triggerWindBlast() {
+  windSpeed = 9;
+  particles.forEach(p => {
+    p.vx += 7;
+    p.vy -= 1.5;
+  });
+  setTimeout(() => windSpeed = 3, 2000);
+}
+
+function resetParticles() {
+  initParticles();
+}
+
+function drawBackground() {
+  // 天空漸層
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  skyGrad.addColorStop(0, '#0284c7');
+  skyGrad.addColorStop(0.7, '#38bdf8');
+  skyGrad.addColorStop(1, '#bae6fd');
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // 遠山與草原
+  ctx.fillStyle = '#22c55e';
+  ctx.beginPath();
+  ctx.moveTo(0, canvas.height);
+  ctx.quadraticCurveTo(300, 380, 600, 420);
+  ctx.quadraticCurveTo(850, 450, 1000, 400);
+  ctx.lineTo(1000, canvas.height);
+  ctx.fill();
+
+  ctx.fillStyle = '#15803d';
+  ctx.beginPath();
+  ctx.moveTo(0, canvas.height);
+  ctx.lineTo(0, 450);
+  ctx.quadraticCurveTo(400, 430, 1000, 460);
+  ctx.lineTo(1000, canvas.height);
+  ctx.fill();
+
+  // 風流線
+  ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+  ctx.lineWidth = 2;
+  windStreams.forEach(s => {
+    ctx.beginPath();
+    ctx.moveTo(s.x, s.y);
+    ctx.lineTo(s.x + s.len, s.y);
+    ctx.stroke();
+    s.x += s.speed * (windSpeed / 3);
+    if (s.x > canvas.width) s.x = -s.len;
+  });
+
+  // 母株展示區（左側）
+  if (currentPlant === 'dandelion') {
+    // 蒲公英母株
+    ctx.strokeStyle = '#15803d'; ctx.lineWidth = 6;
+    ctx.beginPath(); ctx.moveTo(90, 480); ctx.quadraticCurveTo(100, 360, 110, 260); ctx.stroke();
+    ctx.fillStyle = '#fef08a'; ctx.beginPath(); ctx.arc(110, 260, 22, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#78350f'; ctx.beginPath(); ctx.arc(110, 260, 8, 0, Math.PI*2); ctx.fill();
+  } else if (currentPlant === 'maple') {
+    // 青楓樹枝
+    ctx.strokeStyle = '#78350f'; ctx.lineWidth = 10;
+    ctx.beginPath(); ctx.moveTo(0, 80); ctx.quadraticCurveTo(80, 100, 140, 120); ctx.stroke();
+    ctx.fillStyle = '#ef4444';
+    ctx.beginPath(); ctx.ellipse(130, 110, 16, 9, 0.4, 0, Math.PI*2); ctx.fill();
+  }
+}
+
+function drawDandelionSeed(x, y, scale = 1) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
+
+  // 梗
+  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(0, -18); ctx.lineTo(0, 4); ctx.stroke();
+
+  // 頂部冠毛傘
+  ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = 1.2;
+  for (let a = -0.9; a <= 0.9; a += 0.22) {
+    ctx.beginPath();
+    ctx.moveTo(0, -18);
+    ctx.lineTo(Math.sin(a) * 20, -18 - Math.cos(a) * 12);
+    ctx.stroke();
+  }
+
+  // 種子本身（底部黑褐色米粒）
+  ctx.fillStyle = '#451a03';
+  ctx.beginPath();
+  ctx.ellipse(0, 6, 2.5, 6, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function drawMapleSamara(x, y, angle) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+
+  // 翅膀（青楓翅果）
+  ctx.fillStyle = 'rgba(134, 239, 172, 0.9)';
+  ctx.strokeStyle = '#15803d';
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.bezierCurveTo(25, -12, 45, -8, 52, 2);
+  ctx.bezierCurveTo(45, 12, 20, 8, 0, 0);
+  ctx.fill();
+  ctx.stroke();
+
+  // 翅脈
+  ctx.strokeStyle = 'rgba(21, 128, 61, 0.4)';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath();
+  ctx.moveTo(8, -1); ctx.lineTo(38, -3);
+  ctx.moveTo(14, 2); ctx.lineTo(44, 3);
+  ctx.stroke();
+
+  // 圓粒種子
+  ctx.fillStyle = '#166534';
+  ctx.beginPath();
+  ctx.arc(-2, 0, 6, 0, Math.PI*2);
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function drawKapok(x, y) {
+  ctx.save();
+  ctx.translate(x, y);
+  // 棉絮
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+  ctx.beginPath();
+  ctx.arc(-5, -3, 8, 0, Math.PI*2);
+  ctx.arc(5, -2, 9, 0, Math.PI*2);
+  ctx.arc(0, 4, 7, 0, Math.PI*2);
+  ctx.fill();
+  // 種子
+  ctx.fillStyle = '#1e293b';
+  ctx.beginPath(); ctx.arc(0, 1, 3.5, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+function loop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBackground();
+
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.angle += p.vAngle;
+
+    // 波浪起伏
+    p.y += Math.sin(p.x * 0.04) * 0.6;
+
+    if (p.type === 'dandelion') {
+      drawDandelionSeed(p.x, p.y);
+    } else if (p.type === 'maple') {
+      p.vAngle = 0.15; // 自旋竹蜻蜓
+      drawMapleSamara(p.x, p.y, p.angle);
+    } else {
+      drawKapok(p.x, p.y);
+    }
+
+    // 重設循環
+    if (p.x > canvas.width + 50 || p.y > canvas.height - 20) {
+      Object.assign(p, createParticle());
+    }
+  });
+
+  // 儀表板文字
+  ctx.fillStyle = 'rgba(8, 47, 73, 0.85)';
+  ctx.fillRect(720, 20, 260, 75);
+  ctx.strokeStyle = '#38bdf8';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(720, 20, 260, 75);
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 15px Noto Sans TC';
+  ctx.fillText(`💨 當前風速：${windSpeed * 3} km/h`, 735, 46);
+  ctx.fillStyle = '#fde047';
+  ctx.fillText(`🍃 植物模式：${currentPlant === 'dandelion' ? '蒲公英冠毛' : (currentPlant === 'maple' ? '青楓翅果' : '木棉絮')}`, 735, 74);
+
+  requestAnimationFrame(loop);
+}
+
+function checkQuiz(btn, isCorrect) {
+  const fb = document.getElementById('quizFeedback');
+  document.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    b.classList.remove('correct', 'wrong');
+  });
+  if (isCorrect) {
+    btn.classList.add('correct');
+    fb.innerHTML = "🎉 太棒了！答對了！青楓果實具有扁平雙翅（薄翅），落下時能像竹蜻蜓般自旋減緩下落，隨風滑翔飄移！";
+    fb.style.color = "#34d399";
+  } else {
+    btn.classList.add('wrong');
+    fb.innerHTML = "❌ 答錯囉！青楓果實是靠「扁平的薄翅」旋轉下落，所以稱為翅果喔！";
+    fb.style.color = "#f87171";
+  }
+  fb.style.display = 'block';
+}
+
+initStreams();
+initParticles();
+loop();
+</script>
+
+</body>
+</html>

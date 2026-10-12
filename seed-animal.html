@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐦🐕 種子動物傳播互動實驗室 - 國小五上自然</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #ea580c;
+    --primary-light: #fed7aa;
+    --bg-dark: #431407;
+    --bg-card: rgba(67, 20, 7, 0.88);
+    --text-light: #fff7ed;
+    --accent: #f97316;
+    --accent-gold: #fbbf24;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Noto Sans TC", sans-serif; }
+  body {
+    background: linear-gradient(180deg, #7c2d12 0%, #9a3412 40%, #c2410c 100%);
+    color: var(--text-light);
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .header-card {
+    background: var(--bg-card);
+    border: 2px solid var(--accent);
+    border-radius: 18px;
+    padding: 20px 30px;
+    max-width: 1000px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+  }
+  .header-card h1 { font-size: 28px; color: #ffedd5; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .badge { background: #c2410c; color: white; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: bold; }
+  .nav-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+  .nav-btn {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--accent); color: #431407; transform: translateY(-2px); }
+  .nav-btn.active { background: #f97316; color: #431407; font-weight: 800; border-color: #f97316; }
+
+  .stage-box {
+    width: 100%;
+    max-width: 1000px;
+    background: #2b0b02;
+    border-radius: 20px;
+    border: 3px solid var(--accent);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: relative;
+  }
+  canvas { width: 100%; height: 500px; display: block; }
+
+  .controls-bar {
+    max-width: 1000px;
+    width: 100%;
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 16px 24px;
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    border: 1px solid rgba(249, 115, 22, 0.4);
+  }
+  .btn-group { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .ctrl-btn {
+    background: #c2410c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { background: #f97316; color: #431407; transform: translateY(-2px); }
+  .ctrl-btn.active { background: #f97316; color: #431407; border: 2px solid white; }
+  .ctrl-btn.gold { background: #d97706; }
+  .ctrl-btn.gold:hover { background: #fbbf24; color: #000; }
+
+  .info-grid {
+    max-width: 1000px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 20px;
+  }
+  @media(max-width: 768px) { .info-grid { grid-template-columns: 1fr; } }
+  .info-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+  .info-card h3 { color: var(--accent); margin-bottom: 10px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+  .info-card p { font-size: 15px; line-height: 1.7; color: #fed7aa; }
+
+  .quiz-card {
+    max-width: 1000px;
+    width: 100%;
+    background: rgba(67, 20, 7, 0.95);
+    border: 2px solid var(--accent-gold);
+    border-radius: 16px;
+    padding: 22px;
+    margin-top: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .quiz-title { font-size: 18px; font-weight: 800; color: #fbbf24; margin-bottom: 12px; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-opt {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 12px 18px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+    text-align: left;
+  }
+  .quiz-opt:hover { background: rgba(249, 115, 22, 0.2); border-color: #f97316; }
+  .quiz-opt.correct { background: #059669 !important; border-color: #34d399 !important; font-weight: bold; }
+  .quiz-opt.wrong { background: #dc2626 !important; border-color: #f87171 !important; }
+  .feedback { margin-top: 10px; font-size: 15px; font-weight: bold; display: none; }
+</style>
+</head>
+<body>
+
+<div class="header-card">
+  <h1>🐦🐕 種子四大傳播特攻隊：【動物傳播實驗室】</h1>
+  <p>國小自然五上第二單元 • 翰林版課本 第 56～57 頁專題深度探索</p>
+  <div class="nav-bar">
+    <a href="seed-wind.html" class="nav-btn">🌬️ 風力傳播</a>
+    <a href="seed-animal.html" class="nav-btn active">🐦🐕 動物傳播</a>
+    <a href="seed-ballistic.html" class="nav-btn">💥 自身彈力傳播</a>
+    <a href="seed-water.html" class="nav-btn">🌊 水力傳播</a>
+    <a href="index.html" class="nav-btn">🏠 返回第二單元首頁</a>
+  </div>
+</div>
+
+<div class="stage-box">
+  <canvas id="animalCanvas" width="1000" height="500"></canvas>
+</div>
+
+<div class="controls-bar">
+  <div class="btn-group">
+    <span style="font-weight: bold; color: var(--accent);">🐾 選擇傳播途徑：</span>
+    <button class="ctrl-btn active" id="btn-hook" onclick="setMode('hook')">🐕 附著型：大花咸豐草（倒鉤刺黏褲管/毛皮）</button>
+    <button class="ctrl-btn" id="btn-eat" onclick="setMode('eat')">🐦 食用型：鳥吃榕樹果（排便遠播發芽）</button>
+  </div>
+  <div class="btn-group">
+    <button class="ctrl-btn gold" id="btn-action" onclick="triggerAnimalAction()">▶️ 觸發動物互動！</button>
+    <button class="ctrl-btn" onclick="resetSim()">🔄 重置畫面</button>
+  </div>
+</div>
+
+<div class="info-grid">
+  <div class="info-card">
+    <h3>🔍 途徑一：【附著型】倒鉤刺搭便車</h3>
+    <p>• <strong>大花咸豐草（鬼針草）</strong>：黑色長條形瘦果頂端具有 2~4 枚帶有<strong>倒鉤刺的硬芒</strong>。</p>
+    <p>• <strong>黏附機制</strong>：當動物（狗、貓、牛）或人類經過草叢摩擦時，倒鉤刺牢牢卡住毛皮纖維或襪子褲管，被無意間帶到極遠處脫落繁殖。</p>
+  </div>
+
+  <div class="info-card">
+    <h3>🔍 途徑二：【食用型】美味果肉＋抗酸硬種子</h3>
+    <p>• <strong>榕樹（雀榕）、番茄、芭樂</strong>：果實成熟時呈現鮮豔紅/橘色且甜美多汁，吸引鳥類與哺乳動物大口吞食。</p>
+    <p>• <strong>糞便排播</strong>：外層果肉被消化吸收提供能量，但內層種子外殼堅硬<strong>耐胃酸腐蝕</strong>，隨糞便完整排泄在遠處土壤，糞便更成為天然肥料促其萌芽！</p>
+  </div>
+</div>
+
+<div class="quiz-card">
+  <div class="quiz-title">🎯 動物傳播隨堂隨考（小學霸挑戰）</div>
+  <p style="margin-bottom: 12px; font-size: 16px;"><strong>問題：</strong>我們在野外散步後，褲管上常常黏滿「大花咸豐草」的黑色小針，這是因為它的果實具備什麼特徵？</p>
+  <div class="quiz-opts">
+    <button class="quiz-opt" onclick="checkQuiz(this, false)">A. 表面覆蓋黏稠的分泌物與蜂蜜</button>
+    <button class="quiz-opt" onclick="checkQuiz(this, true)">B. 頂端長有細小的倒鉤刺，容易鉤住纖維</button>
+    <button class="quiz-opt" onclick="checkQuiz(this, false)">C. 像非洲鳳仙花一樣會強力彈射黏在身上</button>
+    <button class="quiz-opt" onclick="checkQuiz(this, false)">D. 像蒲公英一樣長滿白色的輕盈冠毛</button>
+  </div>
+  <div class="feedback" id="quizFeedback"></div>
+</div>
+
+<script>
+const canvas = document.getElementById('animalCanvas');
+const ctx = canvas.getContext('2d');
+
+let currentMode = 'hook'; // 'hook' or 'eat'
+let animStep = 0;
+let dogX = -120;
+let birdX = 260, birdY = 180, birdTargetX = 750, birdTargetY = 320;
+let seedDropped = false;
+let sproutStage = 0; // 0: none, 1: drop, 2: sprout
+
+function setMode(m) {
+  currentMode = m;
+  document.getElementById('btn-hook').classList.toggle('active', m === 'hook');
+  document.getElementById('btn-eat').classList.toggle('active', m === 'eat');
+  resetSim();
+}
+
+function resetSim() {
+  animStep = 0;
+  dogX = -120;
+  birdX = 260; birdY = 180;
+  seedDropped = false;
+  sproutStage = 0;
+  document.getElementById('btn-action').innerText = currentMode === 'hook' ? "🐕 小狗經過草叢（黏上倒鉤刺！）" : "🐦 麻雀啄食並飛往遠方排便發芽！";
+}
+
+function triggerAnimalAction() {
+  animStep = 1;
+}
+
+function drawBackground() {
+  if (currentMode === 'hook') {
+    // 郊外草地
+    const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    grad.addColorStop(0, '#fef3c7'); grad.addColorStop(0.6, '#fed7aa'); grad.addColorStop(1, '#a16207');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 地面泥土與綠草
+    ctx.fillStyle = '#65a30d';
+    ctx.fillRect(0, 360, canvas.width, 140);
+    ctx.fillStyle = '#4d7c0f';
+    for (let x = 0; x < canvas.width; x += 15) {
+      ctx.beginPath();
+      ctx.moveTo(x, 360);
+      ctx.lineTo(x + 5, 330);
+      ctx.lineTo(x + 10, 360);
+      ctx.fill();
+    }
+
+    // 大花咸豐草母株（在中間 x: 420~520）
+    drawBidensPlant(460, 360);
+    drawBidensPlant(520, 370);
+
+    // 顯微鏡特寫窗（右上角）
+    drawMicroscopeHook(800, 120);
+
+  } else {
+    // 藍天大樹情境
+    const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    grad.addColorStop(0, '#bae6fd'); grad.addColorStop(0.6, '#fed7aa'); grad.addColorStop(1, '#15803d');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 左側榕樹
+    ctx.fillStyle = '#78350f';
+    ctx.fillRect(60, 160, 50, 300); // 樹幹
+    // 樹冠
+    ctx.fillStyle = '#166534';
+    ctx.beginPath(); ctx.arc(85, 140, 110, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(150, 160, 80, 0, Math.PI*2); ctx.fill();
+
+    // 枝頭紅熟榕樹果實
+    ctx.fillStyle = '#dc2626';
+    for (let i = 0; i < 8; i++) {
+      ctx.beginPath(); ctx.arc(120 + (i*16)%90, 150 + (i*13)%60, 7, 0, Math.PI*2); ctx.fill();
+    }
+
+    // 右側空地土壤
+    ctx.fillStyle = '#713f12';
+    ctx.fillRect(600, 380, 400, 120);
+    ctx.fillStyle = '#15803d';
+    ctx.fillRect(0, 400, 600, 100);
+  }
+}
+
+function drawBidensPlant(x, y) {
+  ctx.strokeStyle = '#15803d'; ctx.lineWidth = 5;
+  ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(x - 20, y - 80, x - 10, y - 130); ctx.stroke();
+
+  // 白色花瓣與黃心
+  ctx.fillStyle = '#ffffff';
+  for (let i = 0; i < 5; i++) {
+    const a = (i / 5) * Math.PI * 2;
+    ctx.beginPath();
+    ctx.ellipse(x - 10 + Math.cos(a)*14, y - 130 + Math.sin(a)*14, 10, 5, a, 0, Math.PI*2);
+    ctx.fill();
+  }
+  ctx.fillStyle = '#eab308';
+  ctx.beginPath(); ctx.arc(x - 10, y - 130, 8, 0, Math.PI*2); ctx.fill();
+
+  // 成熟放射狀黑褐色刺果頭
+  ctx.strokeStyle = '#292524'; ctx.lineWidth = 2.5;
+  for (let a = -1.2; a <= 1.2; a += 0.2) {
+    ctx.beginPath();
+    ctx.moveTo(x - 10, y - 90);
+    ctx.lineTo(x - 10 + Math.sin(a)*36, y - 90 - Math.cos(a)*36);
+    ctx.stroke();
+    // 頂端倒勾
+    ctx.fillStyle = '#44403c';
+    ctx.beginPath();
+    ctx.arc(x - 10 + Math.sin(a)*36, y - 90 - Math.cos(a)*36, 3, 0, Math.PI*2);
+    ctx.fill();
+  }
+}
+
+function drawMicroscopeHook(cx, cy) {
+  ctx.save();
+  // 圓形鏡筒
+  ctx.strokeStyle = '#f97316'; ctx.lineWidth = 4;
+  ctx.fillStyle = '#1c1917';
+  ctx.beginPath(); ctx.arc(cx, cy, 75, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = 'bold 13px Noto Sans TC';
+  ctx.fillText("🔬 咸豐草倒鉤刺微觀剖析", cx - 70, cy - 85);
+
+  // 刺本體
+  ctx.strokeStyle = '#a8a29e'; ctx.lineWidth = 6;
+  ctx.beginPath(); ctx.moveTo(cx - 20, cy + 45); ctx.lineTo(cx, cy - 20); ctx.stroke();
+
+  // 頂部兩根尖銳倒鉤刺（向下彎曲）
+  ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - 20);
+  ctx.quadraticCurveTo(cx - 16, cy - 10, cx - 18, cy + 4);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - 20);
+  ctx.quadraticCurveTo(cx + 16, cy - 10, cx + 18, cy + 4);
+  ctx.stroke();
+
+  ctx.fillStyle = '#38bdf8';
+  ctx.font = '12px Noto Sans TC';
+  ctx.fillText("「倒鉤」牢牢卡住毛線！", cx - 60, cy + 60);
+
+  ctx.restore();
+}
+
+function drawDog(x, y, hasBurrs) {
+  ctx.save();
+  ctx.translate(x, y);
+
+  // 身體
+  ctx.fillStyle = '#d97706';
+  ctx.beginPath(); ctx.ellipse(50, -30, 45, 25, 0, 0, Math.PI*2); ctx.fill();
+
+  // 頭與耳朵
+  ctx.beginPath(); ctx.arc(95, -50, 20, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#92400e';
+  ctx.beginPath(); ctx.ellipse(90, -60, 7, 16, -0.4, 0, Math.PI*2); ctx.fill(); // 耳
+  ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(106, -52, 3, 0, Math.PI*2); ctx.fill(); // 鼻
+
+  // 四肢跑步
+  ctx.strokeStyle = '#d97706'; ctx.lineWidth = 9;
+  const legSwing = Math.sin(x * 0.1) * 16;
+  ctx.beginPath(); ctx.moveTo(25, -15); ctx.lineTo(20 + legSwing, 15); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(70, -15); ctx.lineTo(75 - legSwing, 15); ctx.stroke();
+
+  // 尾巴
+  ctx.beginPath(); ctx.moveTo(8, -40); ctx.quadraticCurveTo(-10, -60, -2, -70); ctx.stroke();
+
+  // 身上黏到的咸豐草倒鉤刺！
+  if (hasBurrs) {
+    ctx.strokeStyle = '#18181b'; ctx.lineWidth = 3;
+    for (let i = 0; i < 7; i++) {
+      const bx = 30 + i * 8, by = -35 + (i % 3) * 6;
+      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx + 10, by - 12); ctx.stroke();
+    }
+    // 標籤指示
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 14px Noto Sans TC';
+    ctx.fillText("🪡 毛皮黏滿倒鉤刺！", 0, -80);
+  }
+
+  ctx.restore();
+}
+
+function drawBird(x, y, holdingSeed) {
+  ctx.save();
+  ctx.translate(x, y);
+
+  // 麻雀身體（棕色）
+  ctx.fillStyle = '#a16207';
+  ctx.beginPath(); ctx.ellipse(0, 0, 24, 16, 0.2, 0, Math.PI*2); ctx.fill();
+
+  // 頭與嘴
+  ctx.fillStyle = '#78350f';
+  ctx.beginPath(); ctx.arc(20, -10, 13, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fbbf24';
+  ctx.beginPath(); ctx.moveTo(31, -12); ctx.lineTo(44, -9); ctx.lineTo(31, -4); ctx.fill(); // 鳥嘴
+
+  // 翅膀
+  ctx.fillStyle = '#713f12';
+  const wingY = Math.sin(animStep * 0.2) * 15;
+  ctx.beginPath(); ctx.ellipse(-5, -6, 18, 10, -0.4, 0, Math.PI*2); ctx.fill();
+
+  // 眼睛
+  ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(24, -13, 2.5, 0, Math.PI*2); ctx.fill();
+
+  // 嘴中啣著紅果
+  if (holdingSeed) {
+    ctx.fillStyle = '#ef4444';
+    ctx.beginPath(); ctx.arc(42, -5, 6, 0, Math.PI*2); ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+function loop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBackground();
+
+  if (currentMode === 'hook') {
+    // 狗狗跑步動畫
+    if (animStep === 1) {
+      dogX += 4;
+      if (dogX > canvas.width + 100) {
+        dogX = -120;
+        animStep = 0;
+      }
+    }
+    const hasBurrs = dogX > 480;
+    drawDog(dogX, 360, hasBurrs);
+
+    // 說明浮水文字
+    ctx.fillStyle = 'rgba(67, 20, 7, 0.85)';
+    ctx.fillRect(40, 30, 480, 70);
+    ctx.strokeStyle = '#f97316'; ctx.lineWidth = 1.5; ctx.strokeRect(40, 30, 480, 70);
+    ctx.fillStyle = '#fed7aa'; ctx.font = 'bold 15px Noto Sans TC';
+    ctx.fillText("🐾 附著式模擬：小狗穿越草叢時，毛皮摩擦到咸豐草成熟果實", 55, 56);
+    ctx.fillStyle = '#fbbf24';
+    ctx.fillText("➔ 倒鉤刺牢牢卡住毛皮，隨著狗狗奔跑四處散播！", 55, 80);
+
+  } else {
+    // 麻雀吃果 ➔ 飛翔 ➔ 排便 ➔ 發芽
+    if (animStep === 1) {
+      // 飛往右側空地
+      if (birdX < birdTargetX) {
+        birdX += 4;
+        birdY = 180 + Math.sin(birdX * 0.03) * 40;
+      } else {
+        // 到達空地，排出種子
+        sproutStage = 1;
+        animStep = 2;
+      }
+    }
+
+    const holding = birdX < 450;
+    drawBird(birdX, birdY, holding);
+
+    if (sproutStage >= 1) {
+      // 種子落地
+      ctx.fillStyle = '#451a03';
+      ctx.beginPath(); ctx.arc(760, 395, 5, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fde047'; ctx.font = '13px Noto Sans TC';
+      ctx.fillText("💩 含有耐酸種子的糞便", 700, 380);
+
+      // 發芽幼苗
+      ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(760, 395); ctx.lineTo(760, 350); ctx.stroke();
+      // 兩片子葉
+      ctx.fillStyle = '#4ade80';
+      ctx.beginPath(); ctx.ellipse(750, 345, 12, 6, -0.4, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(770, 345, 12, 6, 0.4, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#86efac'; ctx.font = 'bold 14px Noto Sans TC';
+      ctx.fillText("🌱 新榕樹幼苗茁壯誕生！", 690, 330);
+    }
+
+    // 說明浮水文字
+    ctx.fillStyle = 'rgba(67, 20, 7, 0.85)';
+    ctx.fillRect(40, 30, 520, 70);
+    ctx.strokeStyle = '#f97316'; ctx.lineWidth = 1.5; ctx.strokeRect(40, 30, 520, 70);
+    ctx.fillStyle = '#fed7aa'; ctx.font = 'bold 15px Noto Sans TC';
+    ctx.fillText("🐦 食用式模擬：鳥類啄食鮮紅榕樹果實，種子堅硬抗胃酸", 55, 56);
+    ctx.fillStyle = '#fbbf24';
+    ctx.fillText("➔ 鳥兒飛到遠方排便，種子隨糞便排出，在土壤發芽！", 55, 80);
+  }
+
+  requestAnimationFrame(loop);
+}
+
+function checkQuiz(btn, isCorrect) {
+  const fb = document.getElementById('quizFeedback');
+  document.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    b.classList.remove('correct', 'wrong');
+  });
+  if (isCorrect) {
+    btn.classList.add('correct');
+    fb.innerHTML = "🎉 太聰明了！答對了！大花咸豐草果實頂端長有細小的倒鉤刺，只要接觸人體衣物或動物毛皮就會緊緊鉤住！";
+    fb.style.color = "#34d399";
+  } else {
+    btn.classList.add('wrong');
+    fb.innerHTML = "❌ 答錯囉！大花咸豐草不是靠分泌物，而是靠頂端物理性的「倒鉤刺」鉤附在動物身上喔！";
+    fb.style.color = "#f87171";
+  }
+  fb.style.display = 'block';
+}
+
+resetSim();
+loop();
+</script>
+
+</body>
+</html>

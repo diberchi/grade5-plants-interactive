@@ -34,6 +34,10 @@
 - **旗艦互動教學系統首頁**：[https://diberchi.github.io/grade5-plants-interactive/](https://diberchi.github.io/grade5-plants-interactive/)
 - **金桔授粉結果專題微課獨立頁**：[https://diberchi.github.io/grade5-plants-interactive/plant-learning-site.html](https://diberchi.github.io/grade5-plants-interactive/plant-learning-site.html)
 - **金桔授粉結果動畫獨立頁**：[https://diberchi.github.io/grade5-plants-interactive/flower-fruit-animation.html](https://diberchi.github.io/grade5-plants-interactive/flower-fruit-animation.html)
+- **🌬️ 風力傳播獨立實驗室**：[https://diberchi.github.io/grade5-plants-interactive/seed-wind.html](https://diberchi.github.io/grade5-plants-interactive/seed-wind.html)
+- **🐦🐕 動物傳播獨立實驗室**：[https://diberchi.github.io/grade5-plants-interactive/seed-animal.html](https://diberchi.github.io/grade5-plants-interactive/seed-animal.html)
+- **💥 自身彈力傳播獨立實驗室**：[https://diberchi.github.io/grade5-plants-interactive/seed-ballistic.html](https://diberchi.github.io/grade5-plants-interactive/seed-ballistic.html)
+- **🌊 水力傳播獨立實驗室**：[https://diberchi.github.io/grade5-plants-interactive/seed-water.html](https://diberchi.github.io/grade5-plants-interactive/seed-water.html)
 
 ---
 

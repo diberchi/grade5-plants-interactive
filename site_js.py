@@ -94,6 +94,15 @@ function fallbackCopy(text, btn) {
   document.body.removeChild(ta);
 }
 
+// 切換四大傳播嵌入式實驗室
+function switchEmbeddedSeed(url, btn) {
+  const iframe = document.getElementById('seedEmbeddedIframe');
+  if (iframe) iframe.src = url;
+  document.querySelectorAll('#tab-seeds-detail .btn-ctrl').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  playSound('pop');
+}
+
 // 碎紙花效果 (Canvas Confetti)
 function triggerConfetti() {
   const c = document.createElement('canvas');
