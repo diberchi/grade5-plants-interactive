@@ -183,6 +183,9 @@ CONTENT_HTML = """
             <div class="info-card-title">校園常見植物與爭取陽光</div>
           </div>
           <p>• <strong>榕樹</strong>：枝幹會垂下無數細長的<strong>氣生根</strong>，接觸地面深入泥土後會吸收水分養分並逐漸木質化加粗，形成支撐巨大樹冠的<strong>支持根</strong>！</p>
+        </div>
+      </div>
+
       <!-- YouTube 實境影音觀察教室（點了就看） -->
       <div style="margin-top: 26px;">
         <div class="tb-header" style="border-bottom: 2px solid rgba(56, 189, 248, 0.3); margin-bottom: 18px;">
@@ -373,7 +376,7 @@ CONTENT_HTML = """
           </div>
           <p>• <strong>橫切面</strong>：用美工刀將莖橫向切斷，在放大鏡下可看見許多<strong>紅色細小斑點</strong>，這些小紅點就是專門運送水分與無機鹽的<strong>木質部導管維管束</strong>。</p>
           <p>• <strong>縱切面</strong>：將莖縱向剖開，會看到一條條<strong>長長的紅色垂直細線條</strong>，證明導管是一根根連通上下、如吸管般的細微管路。</p>
-          <p>• <strong>水分流向</strong>：土壤水分 $\to$ 根毛 $\to$ 根部導管 $\to$ 莖部導管 $\to$ 葉柄與葉脈 $\to$ 葉肉細胞。</p>
+          <p>• <strong>水分流向</strong>：土壤水分 ➔ 根毛 ➔ 根部導管 ➔ 莖部導管 ➔ 葉柄與葉脈 ➔ 葉肉細胞。</p>
         </div>
 
         <div class="info-card">
@@ -1121,19 +1124,19 @@ Top on-screen Traditional Chinese title card: "【水力傳播】漂洋過海大
             <tr style="border-bottom: 1px solid rgba(52, 211, 153, 0.15); background: rgba(255,255,255,0.02);">
               <td style="padding: 12px 14px; font-weight:700; color:var(--accent-cyan);">2-2 水分運輸</td>
               <td style="padding: 12px 14px;">芹菜、白花、大樹</td>
-              <td style="padding: 12px 14px;">根毛吸水 $\to$ 莖部木質部導管（橫切斑點、縱切管線）$\to$ 葉脈</td>
+              <td style="padding: 12px 14px;">根毛吸水 ➔ 莖部木質部導管（橫切斑點、縱切管線）➔ 葉脈</td>
               <td style="padding: 12px 14px;">油泥防蒸發；水分在植物體內是「由下往上」單向運送！</td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(52, 211, 153, 0.15);">
               <td style="padding: 12px 14px; font-weight:700; color:var(--accent-cyan);">2-2 蒸散作用</td>
               <td style="padding: 12px 14px;">葉片背面氣孔、保衛細胞</td>
-              <td style="padding: 12px 14px;">保衛細胞吸水膨脹 $\to$ 氣孔開；保衛細胞失水萎縮 $\to$ 氣孔閉</td>
+              <td style="padding: 12px 14px;">保衛細胞吸水膨脹 ➔ 氣孔開；保衛細胞失水萎縮 ➔ 氣孔閉</td>
               <td style="padding: 12px 14px;">散熱降溫、提供水分向上抽吸之強大「蒸散拉力」。</td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(52, 211, 153, 0.15); background: rgba(255,255,255,0.02);">
               <td style="padding: 12px 14px; font-weight:700; color:var(--accent-gold);">2-3 果實發育</td>
               <td style="padding: 12px 14px;">開花植物花朵（花萼、瓣、雄蕊、雌蕊）</td>
-              <td style="padding: 12px 14px;">授粉後，<strong>子房 $\to$ 果實</strong>；<strong>胚珠 $\to$ 種子</strong></td>
+              <td style="padding: 12px 14px;">授粉後，<strong>子房 ➔ 果實</strong>；<strong>胚珠 ➔ 種子</strong></td>
               <td style="padding: 12px 14px;">切勿混淆：子房包在外面變果肉/果實，胚珠在內部變種子！</td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(52, 211, 153, 0.15);">
